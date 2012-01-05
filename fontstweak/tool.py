@@ -24,23 +24,28 @@ import sys
 from gi.repository import Gtk
 	
 __all__ = (
-	    "FontTweakTool",
+	    "FontsTweakTool",
           )
 
-class FontTweakTool:
-
-    def on_window_destroy(self, widget, data=None):
+class FontsTweakTool:
+    def destroy(self, args):
         Gtk.main_quit()
+    
+    def closeClicked(self, *args):
+	Gtk.main_quit()	
      
     def __init__(self):
-    
         builder = Gtk.Builder()
-        builder.add_from_file("fonttools-2.ui") 
-        
-        self.window = builder.get_object("fonttools")
-        builder.connect_signals(self)       
-    
+        builder.add_from_file("fontstools.ui") 
+        self.window = builder.get_object("dialog1")
+        self.window.connect("destroy", self.destroy)
+	self.window.set_title("fonts-tweak-tool")
+        self.window.set_size_request(640, 480)        
+	
+	self.close_button = builder.get_object("button2")
+	self.close_button.connect("clicked", self.closeClicked)
+   
 def main(argv):
-    tool = FontTweakTool()
-    tool.window.show()
+    tool = FontsTweakTool()
+    tool.window.show_all()
     Gtk.main()
