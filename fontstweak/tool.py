@@ -21,6 +21,7 @@
 # Boston, MA  02111-1307  USA
 
 import sys
+import string
 from gi.repository import Gtk
 from gi.repository import GObject
 	
@@ -31,25 +32,36 @@ __all__ = (
 class FontsTweakTool:
     def destroy(self, args):
         Gtk.main_quit()
-   
+    
+    def readTable(self):
+        lines = None
+        fd = None
+        try:
+            fd = open("locale-list", "r")
+        except:
+            try:
+                fd = open("/usr/share/system-config-language/locale-list", "r")
+            except:
+                pass
+
+        if fd:
+            lines = fd.readlines()
+            fd.close()
+
+        if not lines:
+            raise RuntimeError, ("Cannot find locale-list")
+        else:
+            return lines
+	 
     def selectClicked(self, *args):
 	#Get the lang from the list of languages
         rc = self.langView.get_selection().get_selected()
         if rc:
             model, iter = rc
-            defaultLang =  self.langStore.get_value(iter, 0)
-            sysfontacm = self.langStore.get_value(iter, 1)
-            sysfont = self.langStore.get_value(iter, 2)
-            fullName = self.langStore.get_value(iter, 3)
+            fullName = self.langStore.get_value(iter, 0)
 	
      	list_iter = self.lang_list.append()
-        self.lang_list.set(list_iter, 0, "en_US.UTF-8")
-        self.lang_list.set(list_iter, 1, "iso01")
-        #self.lang_list.set_value(iter, 2, 'lat0-sun16')
-        #self.lang_list.set_value(iter, 3, 'English (USA)')
-	
-        column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=3)
-	self.lang_view.append_column(column)
+       	self.lang_list.set_value(list_iter, 0, fullName)
  
     def closeClicked(self, *args):
 	Gtk.main_quit()
@@ -57,22 +69,29 @@ class FontsTweakTool:
     def addlangClicked(self, *args):
         lang_dialog = Gtk.Dialog() 	
         self.toplevel = Gtk.VBox()
-        self.langStore = Gtk.ListStore(GObject.TYPE_STRING, GObject.TYPE_STRING,
-                                       GObject.TYPE_STRING, GObject.TYPE_STRING)
+        self.langStore = Gtk.ListStore(GObject.TYPE_STRING)
         self.title = Gtk.Label("Language Selection")
             
-        iter = self.langStore.append()
-        self.langStore.set_value(iter, 0, 'en_US.UTF-8')
-        self.langStore.set_value(iter, 1, 'iso01')
-        self.langStore.set_value(iter, 2, 'lat0-sun16')
-        self.langStore.set_value(iter, 3, 'English (USA)')
+        lines = self.readTable()
+        
+	for line in lines:
+	    tokens = string.split(line)
+            iter = self.langStore.append()
+            name = ""
+            for token in tokens[3:]:
+            	name = name + " " + token
+            self.langStore.set_value(iter, 0, name)
 
         self.langView = Gtk.TreeView(self.langStore)
-        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=3)
+        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
         self.langView.append_column(self.col)
         self.langView.set_property("headers-visible", False)
+	self.langViewSW = Gtk.ScrolledWindow()
+        #self.langViewSW.set_policy(Gtk.POLICY_AUTOMATIC, Gtk.POLICY_AUTOMATIC)
+        #self.langViewSW.set_shadow_type(Gtk.SHADOW_IN)
+        self.langViewSW.add(self.langView)
 	content = lang_dialog.get_content_area()
-	content.add(self.langView)
+	content.add(self.langViewSW)
 	
 	self.bb = Gtk.HButtonBox()
         self.bb.set_layout(Gtk.ButtonBoxStyle.END)
@@ -93,7 +112,11 @@ class FontsTweakTool:
         self.window.set_size_request(640, 480)        
 	
 	self.lang_view = builder.get_object("treeview1")
-	self.lang_list = builder.get_object("lang_list")
+        self.lang_list = Gtk.ListStore(GObject.TYPE_STRING, GObject.TYPE_STRING,
+                                       GObject.TYPE_STRING, GObject.TYPE_STRING)
+	self.lang_view.set_model(self.lang_list)
+        column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
+	self.lang_view.append_column(column)
 	
 	self.close_button = builder.get_object("button2")
 	self.close_button.connect("clicked", self.closeClicked)

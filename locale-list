@@ -1,0 +1,145 @@
+af_ZA 8859-15 lat0-sun16 Afrikaans (South Africa)
+sq_AL.UTF-8 utf8 latarcyrheb-sun16 Albanian
+ar_DZ.UTF-8 utf8 latarcyrheb-sun16 Arabic (Algeria)
+ar_BH.UTF-8 utf8 latarcyrheb-sun16 Arabic (Bahrain)
+ar_EG.UTF-8 utf8 latarcyrheb-sun16 Arabic (Egypt)
+ar_IN.UTF-8 utf8 latarcyrheb-sun16 Arabic (India)
+ar_IQ.UTF-8 utf8 latarcyrheb-sun16 Arabic (Iraq)
+ar_JO.UTF-8 utf8 latarcyrheb-sun16 Arabic (Jordan)
+ar_KW.UTF-8 utf8 latarcyrheb-sun16 Arabic (Kuwait)
+ar_LB.UTF-8 utf8 latarcyrheb-sun16 Arabic (Lebanon)
+ar_LY.UTF-8 utf8 latarcyrheb-sun16 Arabic (Libyan Arab Jamahiriya)
+ar_MA.UTF-8 utf8 latarcyrheb-sun16 Arabic (Morocco)
+ar_OM.UTF-8 utf8 latarcyrheb-sun16 Arabic (Oman)
+ar_QA.UTF-8 utf8 latarcyrheb-sun16 Arabic (Qatar)
+ar_SA.UTF-8 utf8 latarcyrheb-sun16 Arabic (Saudi Arabia)
+ar_SD.UTF-8 utf8 latarcyrheb-sun16 Arabic (Sudan)
+ar_SY.UTF-8 utf8 latarcyrheb-sun16 Arabic (Syrian Arab Republic)
+ar_TN.UTF-8 utf8 latarcyrheb-sun16 Arabic (Tunisia)
+ar_AE.UTF-8 utf8 latarcyrheb-sun16 Arabic (United Arab Emirates)
+ar_YE.UTF-8 utf8 latarcyrheb-sun16 Arabic (Yemen)
+as_IN.UTF-8 utf8 latarcyrheb-sun16 Assamese (India)
+ast_ES.UTF-8 utf8 latarcyrheb-sun16 Asturian (Spain)
+eu_ES.UTF-8 utf8 latarcyrheb-sun16 Basque (Spain)
+be_BY.UTF-8 utf8 latarcyrheb-sun16 Belarusian
+bn_BD.UTF-8 utf8 latarcyrheb-sun16 Bengali (BD)
+bn_IN.UTF-8 utf8 latarcyrheb-sun16 Bengali (India)
+bs_BA 8859-2 lat2-sun16 Bosnian (Bosnia and Herzegowina)
+br_FR 8859-15 lat0-sun16 Breton (France)
+bg_BG.UTF-8 utf8 latarcyrheb-sun16 Bulgarian  -  Български
+ca_ES.UTF-8 utf8 latarcyrheb-sun16 Catalan (Spain)
+zh_HK.UTF-8 utf8 latarcyrheb-sun16 Chinese (Hong Kong)
+zh_CN.UTF-8 utf8 lat0-sun16 Chinese (P.R. of China)  -  中文(简体)
+zh_TW.UTF-8 utf8 lat0-sun16 Chinese (Taiwan)  -  傳統漢語
+kw_GB.UTF-8 utf8 latarcyrheb-sun16 Cornish (Britain)
+hr_HR.UTF-8 utf8 latarcyrheb-sun16 Croatian
+cs_CZ.UTF-8 utf8 latarcyrheb-sun16 Czech  -  Česká republika
+da_DK.UTF-8 utf8 latarcyrheb-sun16 Danish  -  Dansk
+nl_BE.UTF-8 utf8 latarcyrheb-sun16 Dutch (Belgium)
+nl_NL.UTF-8 utf8 latarcyrheb-sun16 Dutch (Netherlands)
+en_AU.UTF-8 utf8 latarcyrheb-sun16 English (Australia)
+en_BW.UTF-8 utf8 latarcyrheb-sun16 English (Botswana)
+en_CA.UTF-8 utf8 latarcyrheb-sun16 English (Canada)
+en_DK.UTF-8 utf8 latarcyrheb-sun16 English (Denmark)
+en_GB.UTF-8 utf8 latarcyrheb-sun16 English (Great Britain)
+en_HK.UTF-8 utf8 latarcyrheb-sun16 English (Hong Kong)
+en_IN.UTF-8 utf8 latarcyrheb-sun16 English (India)
+en_IE.UTF-8 utf8 latarcyrheb-sun16 English (Ireland)
+en_NZ.UTF-8 utf8 latarcyrheb-sun16 English (New Zealand)
+en_PH.UTF-8 utf8 latarcyrheb-sun16 English (Philippines)
+en_SG.UTF-8 utf8 latarcyrheb-sun16 English (Singapore)
+en_ZA.UTF-8 utf8 latarcyrheb-sun16 English (South Africa)
+en_US.UTF-8 utf8 latarcyrheb-sun16 English (USA)
+en_ZW.UTF-8 utf8 latarcyrheb-sun16 English (Zimbabwe)
+et_EE.UTF-8 utf8 latarcyrheb-sun16 Estonian
+fo_FO.UTF-8 utf8 latarcyrheb-sun16 Faroese (Faroe Islands)
+fi_FI.UTF-8 utf8 latarcyrheb-sun16 Finnish
+fr_BE.UTF-8 utf8 latarcyrheb-sun16 French (Belgium)
+fr_CA.UTF-8 utf8 latarcyrheb-sun16 French (Canada)
+fr_FR.UTF-8 utf8 latarcyrheb-sun16 French (France)  -  Français
+fr_LU.UTF-8 utf8 latarcyrheb-sun16 French (Luxemburg)
+fr_CH.UTF-8 utf8 latarcyrheb-sun16 French (Switzerland)
+gl_ES.UTF-8 utf8 latarcyrheb-sun16 Galician (Spain)
+de_AT.UTF-8 utf8 latarcyrheb-sun16 German (Austria)
+de_BE.UTF-8 utf8 latarcyrheb-sun16 German (Belgium)
+de_DE.UTF-8 utf8 latarcyrheb-sun16 German (Germany) -   Deutsch
+nds_DE.UTF-8 utf8 latarcyrheb-sun16 Low German (Germany) -   Deutsch
+de_LU.UTF-8 utf8 latarcyrheb-sun16 German (Luxemburg)
+de_CH.UTF-8 utf8 latarcyrheb-sun16 German (Switzerland)
+el_GR.UTF-8 utf8 iso07u-16 Greek
+kl_GL.UTF-8 utf8 latarcyrheb-sun16 Greenlandic (Greenland)
+gu_IN.UTF-8 utf8 latarcyrheb-sun16 Gujarati (India)
+he_IL.UTF-8 utf8 latarcyrheb-sun16 Hebrew (Israel)
+hi_IN.UTF-8 utf8 latarcyrheb-sun16 Hindi (India)
+hu_HU.UTF-8 utf8 latarcyrheb-sun16 Hungarian
+is_IS.UTF-8 utf8 latarcyrheb-sun16 Icelandic  -  Íslenska
+id_ID.UTF-8 utf8 latarcyrheb-sun16 Indonesian
+ga_IE.UTF-8 utf8 latarcyrheb-sun16 Irish
+it_IT.UTF-8 utf8 latarcyrheb-sun16 Italian (Italy) Italiano
+it_CH.UTF-8 utf8 latarcyrheb-sun16 Italian (Switzerland)
+ja_JP.UTF-8 utf8 lat0-sun16 Japanese  -  日本語
+kn_IN.UTF-8 utf8 latarcyrheb-sun16 Kannada (India)
+ko_KR.UTF-8 utf8 lat0-sun16 Korean (Republic of Korea)  -  한국어
+lo_LA.UTF-8 utf8 latarcyrheb-sun16 Lao (Laos)
+lv_LV.UTF-8 utf8 latarcyrheb-sun16 Latvian (Latvia)
+lt_LT.UTF-8 utf8 latarcyrheb-sun16 Lithuanian
+mk_MK.UTF-8 utf8 latarcyrheb-sun16 Macedonian
+mai_IN.UTF-8 utf8 latarcyrheb-sun16 Maithili (India)
+ml_IN.UTF-8 utf8 latarcyrheb-sun16 Malayalam (India)
+ms_MY.UTF-8 utf8 latarcyrheb-sun16 Malay (Malaysia)
+mt_MT.UTF-8 utf8 latarcyrheb-sun16 Maltese (malta)
+gv_GB.UTF-8 utf8 latarcyrheb-sun16 Manx Gaelic (Britain)
+mr_IN.UTF-8 utf8 latarcyrheb-sun16 Marathi (India)
+se_NO utf8 latarcyrheb-sun16 Northern Saami (Norway)
+ne_NP.UTF-8 utf8 latarcyrheb-sun16 Nepali (Nepal)
+nb_NO.UTF-8 utf8 latarcyrheb-sun16 Norwegian  -  Norsk
+nn_NO.UTF-8 utf8 latarcyrheb-sun16 Norwegian, Nynorsk (Norway)  -  Norsk
+oc_FR 8859-15 lat0-sun16 Occitan (France)
+or_IN.UTF-8 utf8 latarcyrheb-sun16 Oriya (India)
+fa_IR.UTF-8 utf8 latarcyrheb-sun16 Persian (Iran)
+pl_PL.UTF-8 utf8 latarcyrheb-sun16 Polish
+pt_BR.UTF-8 utf8 latarcyrheb-sun16 Portuguese (Brasil)
+pt_PT.UTF-8 utf8 latarcyrheb-sun16 Portuguese (Portugal)  -  Português
+pa_IN.UTF-8 utf8 latarcyrheb-sun16 Punjabi (India)
+ro_RO.UTF-8 utf8 Lat2-Terminus16 Romanian 
+ru_RU.UTF-8 utf8 latarcyrheb-sun16 Russian  -  Русский
+ru_UA.UTF-8 utf8 latarcyrheb-sun16 Russian (Ukraine)
+sr_RS.UTF-8 utf8 latarcyrheb-sun16 Serbian 
+sr_RS.UTF-8@latin utf8 latarcyrheb-sun16 Serbian (Latin)
+si_LK.UTF-8 utf8 latarcyrheb-sun16 Sinhala
+sk_SK.UTF-8 utf8 latarcyrheb-sun16 Slovak
+sl_SI.UTF-8 utf8 latarcyrheb-sun16 Slovenian (Slovenia)  -  slovenščina
+es_AR.UTF-8 utf8 latarcyrheb-sun16 Spanish (Argentina)
+es_BO.UTF-8 utf8 latarcyrheb-sun16 Spanish (Bolivia)
+es_CL.UTF-8 utf8 latarcyrheb-sun16 Spanish (Chile)
+es_CO.UTF-8 utf8 latarcyrheb-sun16 Spanish (Colombia)
+es_CR.UTF-8 utf8 latarcyrheb-sun16 Spanish (Costa Rica)
+es_DO.UTF-8 utf8 latarcyrheb-sun16 Spanish (Dominican Republic)
+es_SV.UTF-8 utf8 latarcyrheb-sun16 Spanish (El Salvador)
+es_EC.UTF-8 utf8 latarcyrheb-sun16 Spanish (Equador)
+es_GT.UTF-8 utf8 latarcyrheb-sun16 Spanish (Guatemala)
+es_HN.UTF-8 utf8 latarcyrheb-sun16 Spanish (Honduras)
+es_MX.UTF-8 utf8 latarcyrheb-sun16 Spanish (Mexico)
+es_NI.UTF-8 utf8 latarcyrheb-sun16 Spanish (Nicaragua)
+es_PA.UTF-8 utf8 latarcyrheb-sun16 Spanish (Panama)
+es_PY.UTF-8 utf8 latarcyrheb-sun16 Spanish (Paraguay)
+es_PE.UTF-8 utf8 latarcyrheb-sun16 Spanish (Peru)
+es_PR.UTF-8 utf8 latarcyrheb-sun16 Spanish (Puerto Rico)
+es_ES.UTF-8 utf8 latarcyrheb-sun16 Spanish (Spain)  -  Español
+es_US.UTF-8 utf8 latarcyrheb-sun16 Spanish (USA)
+es_UY.UTF-8 utf8 latarcyrheb-sun16 Spanish (Uruguay)
+es_VE.UTF-8 utf8 latarcyrheb-sun16 Spanish (Venezuela)
+sv_FI.UTF-8 utf8 latarcyrheb-sun16 Swedish (Finland)
+sv_SE.UTF-8 utf8 latarcyrheb-sun16 Swedish (Sweden)  -  Svenska
+tl_PH 8859-15 lat0-sun16 Tagalog (Philippines)
+ta_IN.UTF-8 utf8 latarcyrheb-sun16 Tamil (India)
+te_IN.UTF-8 utf8 latarcyrheb-sun16 Telugu (India)
+th_TH.UTF-8 utf8 latarcyrheb-sun16 Thai
+tr_TR.UTF-8 utf8 latarcyrheb-sun16 Turkish
+uk_UA.UTF-8 utf8 latarcyrheb-sun16 Ukrainian
+ur_PK utf8 latarcyrheb-sun16 Urdu (Pakistan)
+uz_UZ 8859-15 lat0-sun16 Uzbek (Uzbekistan)
+wa_BE@euro 8859-15 lat0-sun16 Walloon (Belgium)
+cy_GB.UTF-8 utf8 latarcyrheb-sun16 Welsh (Great Britain)
+xh_ZA.UTF-8 utf8 latarcyrheb-sun16 Xhosa (South Africa)
+zu_ZA.UTF-8 utf8 latarcyrheb-sun16 Zulu (South Africa)
