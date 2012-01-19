@@ -32,9 +32,10 @@ __all__ = (
 
 class LangDialog(Gtk.Dialog):
     
-    def __init__(self, parent, lang_list):
+    def __init__(self, parent, main_ui):
 	dialog = Gtk.Dialog.__init__(self, "Select Language", parent, 0)
-        self.lang_list = lang_list
+        self.main_ui = main_ui
+        self.lang_list = self.main_ui.lang_list
 	self.toplevel = Gtk.VBox()
         self.langStore = Gtk.ListStore(GObject.TYPE_STRING)
         self.title = Gtk.Label("Language Selection")
@@ -64,8 +65,8 @@ class LangDialog(Gtk.Dialog):
         action = self.get_action_area()
         okButton = Gtk.Button('Select')
         okButton.connect("clicked", self.selectClicked)
+	self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)	
         action.add(okButton)
-	self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)	
 	self.show_all()    
     
     def readTable(self):
@@ -97,14 +98,16 @@ class LangDialog(Gtk.Dialog):
 	
      	list_iter = self.lang_list.append()
        	self.lang_list.set_value(list_iter, 0, fullName)
+	self.main_ui.note_book.set_current_page(0)
+	self.destroy()
 
 class FontsTweakTool:
     
     def addlangClicked(self, *args):
-        dialog = LangDialog(self.window, self.lang_list)
+        dialog = LangDialog(self.window, self)
         response = dialog.run()
 
-        if response == Gtk.ResponseType.CLOSE:
+        if response == Gtk.ResponseType.CANCEL:
             dialog.destroy()   
  
     def closeClicked(self, *args):
@@ -125,6 +128,9 @@ class FontsTweakTool:
 	self.lang_view.set_model(self.lang_list)
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
 	self.lang_view.append_column(column)
+
+	self.note_book = builder.get_object("notebook1")
+	self.note_book.set_current_page(1)
 
 	sans_combo = builder.get_object("sans_combobox")
 	sans_store = Gtk.ListStore(str)
