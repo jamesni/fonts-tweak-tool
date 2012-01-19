@@ -126,7 +126,7 @@ class FontsTweakTool:
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
 	self.lang_view.append_column(column)
 
-	sans_combo = builder.get_object("combobox1")
+	sans_combo = builder.get_object("sans_combobox")
 	sans_store = Gtk.ListStore(str)
 	Easyfc.init()
     	fonts = Easyfc.get_fonts_list(None, None)
