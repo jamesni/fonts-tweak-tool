@@ -24,14 +24,49 @@ import sys
 import string
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import Easyfc
 	
 __all__ = (
 	    "FontsTweakTool",
           )
 
-class FontsTweakTool:
-    def destroy(self, args):
-        Gtk.main_quit()
+class LangDialog(Gtk.Dialog):
+    
+    def __init__(self, parent, lang_list):
+	dialog = Gtk.Dialog.__init__(self, "Select Language", parent, 0)
+        self.lang_list = lang_list
+	self.toplevel = Gtk.VBox()
+        self.langStore = Gtk.ListStore(GObject.TYPE_STRING)
+        self.title = Gtk.Label("Language Selection")
+            
+        lines = self.readTable()
+        
+	for line in lines:
+	    tokens = string.split(line)
+            iter = self.langStore.append()
+            name = ""
+            for token in tokens[3:]:
+            	name = name + " " + token
+            self.langStore.set_value(iter, 0, name)
+
+        self.langView = Gtk.TreeView(self.langStore)
+        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
+        self.langView.append_column(self.col)
+        self.langView.set_property("headers-visible", False)
+	
+	lang_view_sw = Gtk.ScrolledWindow()
+        lang_view_sw.set_min_content_width(400)
+        lang_view_sw.set_min_content_height(400)
+        lang_view_sw.add(self.langView)
+	content = self.get_content_area()
+	content.add(lang_view_sw)
+
+        action = self.get_action_area()
+        okButton = Gtk.Button('Select')
+        okButton.connect("clicked", self.selectClicked)
+        action.add(okButton)
+	self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)	
+	self.show_all()    
     
     def readTable(self):
         lines = None
@@ -52,7 +87,7 @@ class FontsTweakTool:
             raise RuntimeError, ("Cannot find locale-list")
         else:
             return lines
-	 
+    
     def selectClicked(self, *args):
 	#Get the lang from the list of languages
         rc = self.langView.get_selection().get_selected()
@@ -62,62 +97,46 @@ class FontsTweakTool:
 	
      	list_iter = self.lang_list.append()
        	self.lang_list.set_value(list_iter, 0, fullName)
+
+class FontsTweakTool:
+    
+    def addlangClicked(self, *args):
+        dialog = LangDialog(self.window, self.lang_list)
+        response = dialog.run()
+
+        if response == Gtk.ResponseType.CLOSE:
+            dialog.destroy()   
  
     def closeClicked(self, *args):
 	Gtk.main_quit()
-
-    def addlangClicked(self, *args):
-        lang_dialog = Gtk.Dialog() 	
-        self.toplevel = Gtk.VBox()
-        self.langStore = Gtk.ListStore(GObject.TYPE_STRING)
-        self.title = Gtk.Label("Language Selection")
-            
-        lines = self.readTable()
-        
-	for line in lines:
-	    tokens = string.split(line)
-            iter = self.langStore.append()
-            name = ""
-            for token in tokens[3:]:
-            	name = name + " " + token
-            self.langStore.set_value(iter, 0, name)
-
-        self.langView = Gtk.TreeView(self.langStore)
-        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
-        self.langView.append_column(self.col)
-        self.langView.set_property("headers-visible", False)
-	self.langViewSW = Gtk.ScrolledWindow()
-        #self.langViewSW.set_policy(Gtk.POLICY_AUTOMATIC, Gtk.POLICY_AUTOMATIC)
-        #self.langViewSW.set_shadow_type(Gtk.SHADOW_IN)
-        self.langViewSW.add(self.langView)
-	content = lang_dialog.get_content_area()
-	content.add(self.langViewSW)
 	
-	self.bb = Gtk.HButtonBox()
-        self.bb.set_layout(Gtk.ButtonBoxStyle.END)
-        self.bb.set_spacing(12)
-
-        action = lang_dialog.get_action_area()
-        self.okButton = Gtk.Button('Select')
-        self.okButton.connect("clicked", self.selectClicked)
-        action.add(self.okButton)
-	lang_dialog.show_all()    
- 
     def __init__(self):
         builder = Gtk.Builder()
         builder.add_from_file("fontstools.ui") 
         self.window = builder.get_object("dialog1")
-        self.window.connect("destroy", self.destroy)
+        self.window.connect("destroy", Gtk.main_quit)
 	self.window.set_title("fonts-tweak-tool")
         self.window.set_size_request(640, 480)        
 	
+	self.scrollwindow = builder.get_object("scrolledwindow1")
+	self.scrollwindow.set_min_content_width(200)
 	self.lang_view = builder.get_object("treeview1")
-        self.lang_list = Gtk.ListStore(GObject.TYPE_STRING, GObject.TYPE_STRING,
-                                       GObject.TYPE_STRING, GObject.TYPE_STRING)
+        self.lang_list = Gtk.ListStore(GObject.TYPE_STRING)
 	self.lang_view.set_model(self.lang_list)
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
 	self.lang_view.append_column(column)
-	
+
+	sans_combo = builder.get_object("combobox1")
+	sans_store = Gtk.ListStore(str)
+	Easyfc.init()
+    	fonts = Easyfc.get_fonts_list(None, None)
+	for f in fonts:
+	    sans_store.append([f])
+        sans_combo.set_model(sans_store)
+	renderer_text = Gtk.CellRendererText()
+        sans_combo.pack_start(renderer_text, True)
+        sans_combo.add_attribute(renderer_text, "text", 0)
+
 	self.close_button = builder.get_object("button2")
 	self.close_button.connect("clicked", self.closeClicked)
   
