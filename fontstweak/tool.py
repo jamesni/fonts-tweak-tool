@@ -37,7 +37,7 @@ class LangDialog(Gtk.Dialog):
         self.main_ui = main_ui
         self.lang_list = self.main_ui.lang_list
 	self.toplevel = Gtk.VBox()
-        self.langStore = Gtk.ListStore(GObject.TYPE_STRING)
+        self.langStore = Gtk.ListStore(str, str)
         self.title = Gtk.Label("Language Selection")
             
         lines = self.readTable()
@@ -45,13 +45,14 @@ class LangDialog(Gtk.Dialog):
 	for line in lines:
 	    tokens = string.split(line)
             iter = self.langStore.append()
+            self.langStore.set_value(iter, 0, tokens[0])
             name = ""
             for token in tokens[3:]:
             	name = name + " " + token
-            self.langStore.set_value(iter, 0, name)
+            self.langStore.set_value(iter, 1, name)
 
         self.langView = Gtk.TreeView(self.langStore)
-        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
+        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
         self.langView.append_column(self.col)
         self.langView.set_property("headers-visible", False)
 	
@@ -91,15 +92,18 @@ class LangDialog(Gtk.Dialog):
     
     def selectClicked(self, *args):
 	#Get the lang from the list of languages
-        rc = self.langView.get_selection().get_selected()
+        lang = ""
+	rc = self.langView.get_selection().get_selected()
         if rc:
             model, iter = rc
-            fullName = self.langStore.get_value(iter, 0)
+            lang = self.langStore.get_value(iter, 0).split('.')[0].replace("_", "-")
+            fullName = self.langStore.get_value(iter, 1)
 	
-     	list_iter = self.lang_list.append()
+        list_iter = self.lang_list.append()
        	self.lang_list.set_value(list_iter, 0, fullName)
 	self.main_ui.note_book.set_current_page(0)
-	self.destroy()
+	self.main_ui.render_combobox(lang)
+        self.destroy()
 
 class FontsTweakTool:
     
@@ -112,6 +116,34 @@ class FontsTweakTool:
  
     def closeClicked(self, *args):
 	Gtk.main_quit()
+
+    def applyClicked(self, *args):
+	pass
+
+    def render_combobox(self, lang):
+	fonts_store = Gtk.ListStore(str)
+	fonts = Easyfc.get_fonts_list(lang, None)
+	fonts_store.append([""])
+        for f in fonts:
+	    fonts_store.append([f])
+
+        self.sans_combobox.set_model(fonts_store)
+	self.serif_combobox.set_model(fonts_store)
+	self.monospace_combobox.set_model(fonts_store)
+	self.cursive_combobox.set_model(fonts_store)
+	self.fantasy_combobox.set_model(fonts_store)
+	
+	renderer_text = Gtk.CellRendererText()
+        self.sans_combobox.pack_start(renderer_text, True)
+        self.sans_combobox.add_attribute(renderer_text, "text", 0)
+        self.serif_combobox.pack_start(renderer_text, True)
+        self.serif_combobox.add_attribute(renderer_text, "text", 0)
+        self.monospace_combobox.pack_start(renderer_text, True)
+        self.monospace_combobox.add_attribute(renderer_text, "text", 0)
+        self.cursive_combobox.pack_start(renderer_text, True)
+        self.cursive_combobox.add_attribute(renderer_text, "text", 0)
+        self.fantasy_combobox.pack_start(renderer_text, True)
+        self.fantasy_combobox.add_attribute(renderer_text, "text", 0)
 	
     def __init__(self):
         builder = Gtk.Builder()
@@ -132,22 +164,22 @@ class FontsTweakTool:
 	self.note_book = builder.get_object("notebook1")
 	self.note_book.set_current_page(1)
 
-	sans_combo = builder.get_object("sans_combobox")
-	sans_store = Gtk.ListStore(str)
-	Easyfc.init()
-    	fonts = Easyfc.get_fonts_list(None, None)
-	for f in fonts:
-	    sans_store.append([f])
-        sans_combo.set_model(sans_store)
-	renderer_text = Gtk.CellRendererText()
-        sans_combo.pack_start(renderer_text, True)
-        sans_combo.add_attribute(renderer_text, "text", 0)
+	self.sans_combobox = builder.get_object("sans_combobox")
+	self.serif_combobox = builder.get_object("serif_combobox")
+	self.monospace_combobox = builder.get_object("monospace_combobox")
+	self.cursive_combobox = builder.get_object("cursive_combobox")
+	self.fantasy_combobox = builder.get_object("fantasy_combobox")
 
 	self.close_button = builder.get_object("button2")
 	self.close_button.connect("clicked", self.closeClicked)
   
 	self.addlang_button = builder.get_object("add-lang")
         self.addlang_button.connect("clicked", self.addlangClicked)
+	
+	self.apply_button = builder.get_object("button1")
+	self.apply_button.connect("clicked", self.applyClicked)
+
+	Easyfc.init()
 
 def main(argv):
     tool = FontsTweakTool()
