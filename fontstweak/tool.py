@@ -30,6 +30,8 @@ __all__ = (
 	    "FontsTweakTool",
           )
 
+alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
+
 class LangDialog(Gtk.Dialog):
     
     def __init__(self, parent, main_ui):
@@ -101,8 +103,10 @@ class LangDialog(Gtk.Dialog):
 	
         list_iter = self.lang_list.append()
        	self.lang_list.set_value(list_iter, 0, fullName)
+        self.lang_list.set_value(list_iter, 1, lang)
 	self.main_ui.note_book.set_current_page(0)
-	self.main_ui.render_combobox(lang)
+	for n in alias_names:
+		self.main_ui.render_combobox(lang, n)
         self.destroy()
 
 class FontsTweakTool:
@@ -120,31 +124,17 @@ class FontsTweakTool:
     def applyClicked(self, *args):
 	pass
 
-    def render_combobox(self, lang):
-	fonts_store = Gtk.ListStore(str)
-	fonts = Easyfc.get_fonts_list(lang, None)
-	fonts_store.append([""])
-        for f in fonts:
-	    fonts_store.append([f])
+    def render_combobox(self, lang, alias):
+        if self.fontslist.has_key(lang) == False:
+            self.fontslist[lang] = {}
+        if self.fontslist[lang].has_key(alias) == False:
+            self.fontslist[lang][alias] = Easyfc.get_fonts_list(lang, alias)
+        self.lists[alias].clear()
+        self.lists[alias].append([alias])
+        for f in self.fontslist[lang][alias]:
+	    self.lists[alias].append([f])
+        self.combobox[alias].set_active(0)
 
-        self.sans_combobox.set_model(fonts_store)
-	self.serif_combobox.set_model(fonts_store)
-	self.monospace_combobox.set_model(fonts_store)
-	self.cursive_combobox.set_model(fonts_store)
-	self.fantasy_combobox.set_model(fonts_store)
-	
-	renderer_text = Gtk.CellRendererText()
-        self.sans_combobox.pack_start(renderer_text, True)
-        self.sans_combobox.add_attribute(renderer_text, "text", 0)
-        self.serif_combobox.pack_start(renderer_text, True)
-        self.serif_combobox.add_attribute(renderer_text, "text", 0)
-        self.monospace_combobox.pack_start(renderer_text, True)
-        self.monospace_combobox.add_attribute(renderer_text, "text", 0)
-        self.cursive_combobox.pack_start(renderer_text, True)
-        self.cursive_combobox.add_attribute(renderer_text, "text", 0)
-        self.fantasy_combobox.pack_start(renderer_text, True)
-        self.fantasy_combobox.add_attribute(renderer_text, "text", 0)
-	
     def __init__(self):
         builder = Gtk.Builder()
         builder.add_from_file("fontstools.ui") 
@@ -156,19 +146,33 @@ class FontsTweakTool:
 	self.scrollwindow = builder.get_object("scrolledwindow1")
 	self.scrollwindow.set_min_content_width(200)
 	self.lang_view = builder.get_object("treeview1")
-        self.lang_list = Gtk.ListStore(GObject.TYPE_STRING)
-	self.lang_view.set_model(self.lang_list)
+        self.lang_list = builder.get_object("lang_list")
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
 	self.lang_view.append_column(column)
 
 	self.note_book = builder.get_object("notebook1")
 	self.note_book.set_current_page(1)
 
-	self.sans_combobox = builder.get_object("sans_combobox")
-	self.serif_combobox = builder.get_object("serif_combobox")
-	self.monospace_combobox = builder.get_object("monospace_combobox")
-	self.cursive_combobox = builder.get_object("cursive_combobox")
-	self.fantasy_combobox = builder.get_object("fantasy_combobox")
+        self.fontslist = {}
+
+        self.combobox = {}
+	self.combobox['sans-serif'] = builder.get_object("sans_combobox")
+	self.combobox['serif'] = builder.get_object("serif_combobox")
+	self.combobox['monospace'] = builder.get_object("monospace_combobox")
+	self.combobox['cursive'] = builder.get_object("cursive_combobox")
+	self.combobox['fantasy'] = builder.get_object("fantasy_combobox")
+
+        for f in alias_names:
+            renderer_text = Gtk.CellRendererText()
+            self.combobox[f].pack_start(renderer_text, True)
+            self.combobox[f].add_attribute(renderer_text, "text", 0)
+
+        self.lists = {}
+        self.lists['sans-serif'] = builder.get_object("sans_fonts_list")
+	self.lists['serif'] = builder.get_object("serif_fonts_list")
+	self.lists['monospace'] = builder.get_object("monospace_fonts_list")
+	self.lists['cursive'] = builder.get_object("cursive_fonts_list")
+	self.lists['fantasy'] = builder.get_object("fantasy_fonts_list")
 
 	self.close_button = builder.get_object("button2")
 	self.close_button.connect("clicked", self.closeClicked)
