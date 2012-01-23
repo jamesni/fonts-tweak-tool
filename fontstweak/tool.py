@@ -129,7 +129,12 @@ class FontsTweakTool:
         dialog.dialog.destroy()
 
     def removelangClicked(self, *args):
-        pass
+        selection = self.lang_view.get_selection()
+        model, iter = selection.get_selected()
+        if iter != None:
+            self.lang_list.remove(iter)
+            self.note_book.set_current_page(1)
+            self.removelang_button.set_sensitive(False)
 
     def closeClicked(self, *args):
 	Gtk.main_quit()
