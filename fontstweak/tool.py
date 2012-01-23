@@ -22,6 +22,7 @@
 
 import sys
 import string
+from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Easyfc
@@ -32,60 +33,59 @@ __all__ = (
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
 
-class LangDialog:
+class LangList:
 
     def __init__(self, parent):
-        builder = Gtk.Builder()
-        builder.add_from_file("fontstools.ui")
-        self.dialog = builder.get_object("dialog2")
-        self.dialog.set_transient_for(parent)
-        self.langStore = builder.get_object("lang_and_locale_list")
+        self.langlist = OrderedDict()
+        self.parent_window = parent
 
-        lines = self.readTable()
-
-	for line in lines:
-	    tokens = string.split(line)
-            iter = self.langStore.append()
-            self.langStore.set_value(iter, 0, tokens[0])
-            name = ""
-            for token in tokens[3:]:
-            	name = name + " " + token
-            self.langStore.set_value(iter, 1, name)
-
-        self.langView = builder.get_object("lang_view")
-        col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
-        self.langView.append_column(col)
-
-	self.dialog.show_all()
-
-    def readTable(self):
-        lines = None
-        fd = None
         try:
             fd = open("locale-list", "r")
         except:
             try:
                 fd = open("/usr/share/system-config-language/locale-list", "r")
             except:
-                pass
+                raise RuntimeError, ("Cannot find locale-list")
 
-        if fd:
-            lines = fd.readlines()
-            fd.close()
+        while True:
+            line = fd.readline()
+            if not line:
+                break
+	    tokens = string.split(line)
+            self.langlist[tokens[0]] = string.join(tokens[3:], ' ')
 
-        if not lines:
-            raise RuntimeError, ("Cannot find locale-list")
-        else:
-            return lines
+    def show_dialog(self):
+        builder = Gtk.Builder()
+        builder.add_from_file("fontstools.ui")
+        self.dialog = builder.get_object("dialog2")
+        self.dialog.set_transient_for(self.parent_window)
+        self.langStore = builder.get_object("lang_and_locale_list")
+
+        for l in self.langlist.keys():
+            iter = self.langStore.append()
+            self.langStore.set_value(iter, 0, l)
+            self.langStore.set_value(iter, 1, self.langlist[l])
+
+        self.langView = builder.get_object("lang_view")
+        col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
+        self.langView.append_column(col)
+        self.dialog.show_all()
+        self.dialog.run()
+
+    def close_dialog(self):
+        self.dialog.destroy()
+        self.dialog = None
 
     def get_selection(self):
         lang = None
         fullName = None
-        selection = self.langView.get_selection().get_selected()
-        if selection:
-            model, iter = selection
-            lang = self.langStore.get_value(iter, 0).split('.')[0].replace("_", "-")
-            fullName = self.langStore.get_value(iter, 1)
+        if self.dialog != None:
+            selection = self.langView.get_selection().get_selected()
+            if selection:
+                model, iter = selection
+                lang = self.langStore.get_value(iter, 0).split('.')[0].replace("_", "-")
+                fullName = self.langStore.get_value(iter, 1)
+
         return [lang, fullName]
 
 class FontsTweakTool:
@@ -104,12 +104,11 @@ class FontsTweakTool:
             self.removelang_button.set_sensitive(True)
 
     def addlangClicked(self, *args):
-        dialog = LangDialog(self.window)
-        response = dialog.dialog.run()
+        response = self.languages.show_dialog()
 
         if response != Gtk.ResponseType.CANCEL:
             no_langs = True
-            lang, desc = dialog.get_selection()
+            lang, desc = self.languages.get_selection()
             model = self.lang_view.get_model()
             iter = model.get_iter_first()
             while iter != None:
@@ -126,7 +125,7 @@ class FontsTweakTool:
                 self.lang_view.set_cursor(path, None, False)
             else:
                 print "%s has already been added.\n" % lang
-        dialog.dialog.destroy()
+        self.languages.close_dialog()
 
     def removelangClicked(self, *args):
         selection = self.lang_view.get_selection()
@@ -207,6 +206,8 @@ class FontsTweakTool:
 
         selection = self.lang_view.get_selection()
         selection.connect("changed", self.selectionChanged)
+
+        self.languages = LangList(self.window)
 
 	Easyfc.init()
 
