@@ -25,23 +25,24 @@ import string
 from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Easyfc
-	
+
 __all__ = (
 	    "FontsTweakTool",
           )
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
 
-class LangDialog(Gtk.Dialog):
-    
+class LangDialog:
+
     def __init__(self, parent):
-	dialog = Gtk.Dialog.__init__(self, "Select Language", parent, 0)
-	self.toplevel = Gtk.VBox()
-        self.langStore = Gtk.ListStore(str, str)
-        self.title = Gtk.Label("Language Selection")
-            
+        builder = Gtk.Builder()
+        builder.add_from_file("fontstools.ui")
+        self.dialog = builder.get_object("dialog2")
+        self.dialog.set_transient_for(parent)
+        self.langStore = builder.get_object("lang_and_locale_list")
+
         lines = self.readTable()
-        
+
 	for line in lines:
 	    tokens = string.split(line)
             iter = self.langStore.append()
@@ -51,22 +52,12 @@ class LangDialog(Gtk.Dialog):
             	name = name + " " + token
             self.langStore.set_value(iter, 1, name)
 
-        self.langView = Gtk.TreeView(self.langStore)
-        self.col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
-        self.langView.append_column(self.col)
-        self.langView.set_property("headers-visible", False)
-	
-	lang_view_sw = Gtk.ScrolledWindow()
-        lang_view_sw.set_min_content_width(400)
-        lang_view_sw.set_min_content_height(400)
-        lang_view_sw.add(self.langView)
-	content = self.get_content_area()
-	content.add(lang_view_sw)
+        self.langView = builder.get_object("lang_view")
+        col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
+        self.langView.append_column(col)
 
-	self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
-        self.add_button('Select', Gtk.ResponseType.OK)
-	self.show_all()    
-    
+	self.dialog.show_all()
+
     def readTable(self):
         lines = None
         fd = None
@@ -86,7 +77,7 @@ class LangDialog(Gtk.Dialog):
             raise RuntimeError, ("Cannot find locale-list")
         else:
             return lines
-    
+
     def get_selection(self):
         lang = None
         fullName = None
@@ -114,7 +105,7 @@ class FontsTweakTool:
 
     def addlangClicked(self, *args):
         dialog = LangDialog(self.window)
-        response = dialog.run()
+        response = dialog.dialog.run()
 
         if response != Gtk.ResponseType.CANCEL:
             no_langs = True
@@ -135,7 +126,7 @@ class FontsTweakTool:
                 self.lang_view.set_cursor(path, None, False)
             else:
                 print "%s has already been added.\n" % lang
-        dialog.destroy()
+        dialog.dialog.destroy()
 
     def removelangClicked(self, *args):
         pass
