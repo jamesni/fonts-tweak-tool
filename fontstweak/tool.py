@@ -34,10 +34,8 @@ alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
 
 class LangDialog(Gtk.Dialog):
     
-    def __init__(self, parent, main_ui):
+    def __init__(self, parent):
 	dialog = Gtk.Dialog.__init__(self, "Select Language", parent, 0)
-        self.main_ui = main_ui
-        self.lang_list = self.main_ui.lang_list
 	self.toplevel = Gtk.VBox()
         self.langStore = Gtk.ListStore(str, str)
         self.title = Gtk.Label("Language Selection")
@@ -65,11 +63,8 @@ class LangDialog(Gtk.Dialog):
 	content = self.get_content_area()
 	content.add(lang_view_sw)
 
-        action = self.get_action_area()
-        okButton = Gtk.Button('Select')
-        okButton.connect("clicked", self.selectClicked)
-	self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)	
-        action.add(okButton)
+	self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
+        self.add_button('Select', Gtk.ResponseType.OK)
 	self.show_all()    
     
     def readTable(self):
@@ -92,32 +87,59 @@ class LangDialog(Gtk.Dialog):
         else:
             return lines
     
-    def selectClicked(self, *args):
-	#Get the lang from the list of languages
-        lang = ""
-	rc = self.langView.get_selection().get_selected()
-        if rc:
-            model, iter = rc
+    def get_selection(self):
+        lang = None
+        fullName = None
+        selection = self.langView.get_selection().get_selected()
+        if selection:
+            model, iter = selection
             lang = self.langStore.get_value(iter, 0).split('.')[0].replace("_", "-")
             fullName = self.langStore.get_value(iter, 1)
-	
-        list_iter = self.lang_list.append()
-       	self.lang_list.set_value(list_iter, 0, fullName)
-        self.lang_list.set_value(list_iter, 1, lang)
-	self.main_ui.note_book.set_current_page(0)
-	for n in alias_names:
-		self.main_ui.render_combobox(lang, n)
-        self.destroy()
+        return [lang, fullName]
 
 class FontsTweakTool:
-    
+
+    def selectionChanged(self, *args):
+        selection = self.lang_view.get_selection()
+        model, iter = selection.get_selected()
+        if iter == None:
+            self.note_book.set_current_page(1)
+            self.removelang_button.set_sensitive(False)
+        else:
+            lang = model.get_value(iter, 1)
+            for n in alias_names:
+                self.render_combobox(lang, n)
+            self.note_book.set_current_page(0)
+            self.removelang_button.set_sensitive(True)
+
     def addlangClicked(self, *args):
-        dialog = LangDialog(self.window, self)
+        dialog = LangDialog(self.window)
         response = dialog.run()
 
-        if response == Gtk.ResponseType.CANCEL:
-            dialog.destroy()   
- 
+        if response != Gtk.ResponseType.CANCEL:
+            no_langs = True
+            lang, desc = dialog.get_selection()
+            model = self.lang_view.get_model()
+            iter = model.get_iter_first()
+            while iter != None:
+                n, l = model.get(iter, 0, 1)
+                if l == lang:
+                    no_langs = False
+                    break
+                iter = model.iter_next(iter)
+            if no_langs == True:
+                iter = self.lang_list.append()
+                self.lang_list.set_value(iter, 0, desc)
+                self.lang_list.set_value(iter, 1, lang)
+                path = model.get_path(iter)
+                self.lang_view.set_cursor(path, None, False)
+            else:
+                print "%s has already been added.\n" % lang
+        dialog.destroy()
+
+    def removelangClicked(self, *args):
+        pass
+
     def closeClicked(self, *args):
 	Gtk.main_quit()
 
@@ -179,9 +201,16 @@ class FontsTweakTool:
   
 	self.addlang_button = builder.get_object("add-lang")
         self.addlang_button.connect("clicked", self.addlangClicked)
+
+        self.removelang_button = builder.get_object("remove-lang")
+        self.removelang_button.connect("clicked", self.removelangClicked)
+        self.removelang_button.set_sensitive(False)
 	
 	self.apply_button = builder.get_object("button1")
 	self.apply_button.connect("clicked", self.applyClicked)
+
+        selection = self.lang_view.get_selection()
+        selection.connect("changed", self.selectionChanged)
 
 	Easyfc.init()
 
