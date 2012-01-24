@@ -1,4 +1,5 @@
 #vim:set et sts=4 sw=4:
+# -*- encoding: utf-8 -*-
 #
 # Font Tweak Tool
 #
@@ -22,6 +23,7 @@
 
 import sys
 import string
+import gi
 from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
@@ -52,7 +54,8 @@ class LangList:
             if not line:
                 break
 	    tokens = string.split(line)
-            self.langlist[tokens[0]] = string.join(tokens[3:], ' ')
+            lang = str(tokens[0]).split('.')[0].replace('_', '-')
+            self.langlist[lang] = string.join(tokens[3:], ' ')
 
     def show_dialog(self):
         builder = Gtk.Builder()
@@ -83,7 +86,7 @@ class LangList:
             selection = self.langView.get_selection().get_selected()
             if selection:
                 model, iter = selection
-                lang = self.langStore.get_value(iter, 0).split('.')[0].replace("_", "-")
+                lang = self.langStore.get_value(iter, 0)
                 fullName = self.langStore.get_value(iter, 1)
 
         return [lang, fullName]
@@ -103,43 +106,77 @@ class FontsTweakTool:
             self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
 
+    def add_language(self, desc, lang):
+        retval = True
+        model = self.lang_view.get_model()
+        iter = model.get_iter_first()
+        while iter != None:
+            n, l = model.get(iter, 0, 1)
+            if l == lang:
+                retval = False
+                break
+            iter = model.iter_next(iter)
+        if retval == True:
+            iter = self.lang_list.append()
+            self.lang_list.set_value(iter, 0, desc)
+            self.lang_list.set_value(iter, 1, lang)
+        else:
+            iter = None
+
+        return iter
+
     def addlangClicked(self, *args):
         response = self.languages.show_dialog()
 
         if response != Gtk.ResponseType.CANCEL:
-            no_langs = True
             lang, desc = self.languages.get_selection()
-            model = self.lang_view.get_model()
-            iter = model.get_iter_first()
-            while iter != None:
-                n, l = model.get(iter, 0, 1)
-                if l == lang:
-                    no_langs = False
-                    break
-                iter = model.iter_next(iter)
-            if no_langs == True:
-                iter = self.lang_list.append()
-                self.lang_list.set_value(iter, 0, desc)
-                self.lang_list.set_value(iter, 1, lang)
+            iter = self.add_language(desc, lang)
+            if iter == None:
+                print "%s has already been added.\n" % lang
+            else:
+                model = self.lang_view.get_model()
                 path = model.get_path(iter)
                 self.lang_view.set_cursor(path, None, False)
-            else:
-                print "%s has already been added.\n" % lang
+
         self.languages.close_dialog()
 
     def removelangClicked(self, *args):
         selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
         if iter != None:
+            lang = model.get(iter, 1)[0]
             self.lang_list.remove(iter)
             self.note_book.set_current_page(1)
             self.removelang_button.set_sensitive(False)
+            self.config.remove_aliases(lang)
+
+    def fontChanged(self, combobox, *args):
+        if self.__initialized == False:
+            return
+        selection = self.lang_view.get_selection()
+        model, iter = selection.get_selected()
+        if iter != None:
+            lang = model.get(iter, 1)[0]
+            model = combobox.get_model()
+            iter = combobox.get_active_iter()
+            if iter != None:
+                font = model.get(iter, 0)[0]
+                iter = model.get_iter_first()
+                alias = model.get(iter, 0)[0]
+                self.config.remove_alias(lang, alias)
+                a = Easyfc.Alias.new(alias)
+                try:
+                    a.set_font(font)
+                    self.config.add_alias(lang, a)
+                except gi._glib.GError:
+                    pass
 
     def closeClicked(self, *args):
 	Gtk.main_quit()
 
     def applyClicked(self, *args):
-	pass
+        self.config.save()
+        Gtk.main_quit()
 
     def render_combobox(self, lang, alias):
         if self.fontslist.has_key(lang) == False:
@@ -149,10 +186,26 @@ class FontsTweakTool:
         self.lists[alias].clear()
         self.lists[alias].append([alias])
         for f in self.fontslist[lang][alias]:
-	    self.lists[alias].append([f])
-        self.combobox[alias].set_active(0)
+	    self.lists[alias].append([unicode(f, "utf8")])
+        fn = None
+        for a in self.config.get_aliases(lang):
+            if a.get_name() == alias:
+                fn = a.get_font()
+                break
+        if fn != None:
+            model = self.combobox[alias].get_model()
+            iter = model.get_iter_first()
+            while iter != None:
+                f = model.get(iter, 0)[0]
+                if f == unicode(fn, "utf8"):
+                    self.combobox[alias].set_active_iter(iter)
+                    break
+                iter = model.iter_next(iter)
+        else:
+            self.combobox[alias].set_active(0)
 
     def __init__(self):
+        self.__initialized = False
         builder = Gtk.Builder()
         builder.add_from_file("fontstools.ui") 
         self.window = builder.get_object("dialog1")
@@ -183,6 +236,7 @@ class FontsTweakTool:
             renderer_text = Gtk.CellRendererText()
             self.combobox[f].pack_start(renderer_text, True)
             self.combobox[f].add_attribute(renderer_text, "text", 0)
+            self.combobox[f].connect('changed', self.fontChanged)
 
         self.lists = {}
         self.lists['sans-serif'] = builder.get_object("sans_fonts_list")
@@ -208,8 +262,27 @@ class FontsTweakTool:
         selection.connect("changed", self.selectionChanged)
 
         self.languages = LangList(self.window)
+        self.data = {}
 
 	Easyfc.init()
+
+        self.config = Easyfc.Config()
+        self.config.set_name("fontstweak")
+        try:
+            self.config.load()
+        except gi._glib.GError, e:
+            if e.domain != 'ezfc-error-quark' or e.code != 7:
+                raise
+
+        for l in self.config.get_language_list():
+            # XXX: need to take care of the KeyError exception?
+            desc = self.languages.langlist[l]
+            self.add_language(desc, l)
+            for a in self.config.get_aliases(l):
+                an = a.get_name()
+                self.render_combobox(l, an)
+
+        self.__initialized = True
 
 def main(argv):
     tool = FontsTweakTool()
