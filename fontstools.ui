@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkListStore" id="cursive_fonts_list"/>
+  <object class="GtkListStore" id="cursive_fonts_list">
+    <columns>
+      <!-- column-name fontname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -163,8 +168,6 @@
                             <property name="can_focus">False</property>
                             <property name="row_spacing">4</property>
                             <property name="column_spacing">4</property>
-                            <property name="n_rows">5</property>
-                            <property name="n_columns">2</property>
                             <child>
                               <object class="GtkLabel" id="label4">
                                 <property name="visible">True</property>
@@ -300,6 +303,15 @@
                                 <property name="height">1</property>
                               </packing>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </object>
                         </child>
                       </object>
@@ -372,11 +384,133 @@
       <action-widget response="0">button2</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkListStore" id="fantasy_fonts_list"/>
-  <object class="GtkListStore" id="lang_list"/>
-  <object class="GtkListStore" id="monospace_fonts_list"/>
-  <object class="GtkListStore" id="sans_fonts_list"/>
-  <object class="GtkListStore" id="serif_fonts_list"/>
+  <object class="GtkDialog" id="dialog2">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Language Selection</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox2">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area2">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button3">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button4">
+                <property name="label" translatable="yes">Select</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow2">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="shadow_type">in</property>
+            <property name="min_content_width">400</property>
+            <property name="min_content_height">400</property>
+            <child>
+              <object class="GtkTreeView" id="lang_view">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="model">lang_and_locale_list</property>
+                <property name="headers_visible">False</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection" id="treeview-selection2"/>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button3</action-widget>
+      <action-widget response="-5">button4</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkListStore" id="fantasy_fonts_list">
+    <columns>
+      <!-- column-name fontname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="lang_and_locale_list">
+    <columns>
+      <!-- column-name language -->
+      <column type="gchararray"/>
+      <!-- column-name locale -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="lang_list">
+    <columns>
+      <!-- column-name language -->
+      <column type="gchararray"/>
+      <!-- column-name locale -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="monospace_fonts_list">
+    <columns>
+      <!-- column-name fontname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="sans_fonts_list">
+    <columns>
+      <!-- column-name fontname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="serif_fonts_list">
+    <columns>
+      <!-- column-name fontname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkSizeGroup" id="sizegroup1">
     <property name="mode">both</property>
     <property name="ignore_hidden">True</property>
