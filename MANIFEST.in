@@ -1,0 +1,4 @@
+include AUTHOR
+include COPYING
+include fontstools.ui
+include locale-list
