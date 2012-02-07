@@ -20,6 +20,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import os
 import string
 import gi
 from collections import OrderedDict
@@ -205,7 +206,9 @@ class FontsTweakTool:
     def __init__(self):
         self.__initialized = False
         builder = Gtk.Builder()
-        builder.add_from_file("fontstools.ui") 
+        path = os.path.dirname(os.path.realpath(__file__))
+        uifile = os.path.join(path, 'fontstools.ui')
+	builder.add_from_file(uifile) 
         self.window = builder.get_object("dialog1")
         self.window.connect("destroy", Gtk.main_quit)
 	self.window.set_title("fonts-tweak-tool")
