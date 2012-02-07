@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Fonts Tweak Tool
+Comment=Tweak fonts by language using fontconfig
+Icon=preferences-system
+Exec=fonts-tweak-tool
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+OnlyShowIn=GNOME;Unity;
