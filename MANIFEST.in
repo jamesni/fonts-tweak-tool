@@ -1,4 +1,4 @@
 include AUTHOR
 include COPYING
-include fontstools.ui
-include locale-list
+include fontstweak/fontstools.ui
+include fontstweak/locale-list

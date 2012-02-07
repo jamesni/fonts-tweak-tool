@@ -39,12 +39,14 @@ class LangList:
     def __init__(self, parent):
         self.langlist = OrderedDict()
         self.parent_window = parent
-
+        path = os.path.dirname(os.path.realpath(__file__))
+        localefile = os.path.join(path, 'locale-list')
+        
         try:
-            fd = open("locale-list", "r")
+            fd = open(localefile, "r")
         except:
             try:
-                fd = open("/usr/share/system-config-language/locale-list", "r")
+		fd = open("/usr/share/system-config-language/locale-list", "r")
             except:
                 raise RuntimeError, ("Cannot find locale-list")
 
@@ -58,7 +60,9 @@ class LangList:
 
     def show_dialog(self):
         builder = Gtk.Builder()
-        builder.add_from_file("fontstools.ui")
+        path = os.path.dirname(os.path.realpath(__file__))
+        uifile = os.path.join(path, 'fontstools.ui')
+        builder.add_from_file(uifile)
         self.dialog = builder.get_object("dialog2")
         self.dialog.set_transient_for(self.parent_window)
         self.langStore = builder.get_object("lang_and_locale_list")
