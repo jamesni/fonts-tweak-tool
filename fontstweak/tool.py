@@ -76,7 +76,7 @@ class LangList:
         col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
         self.langView.append_column(col)
         self.dialog.show_all()
-        self.dialog.run()
+        return self.dialog.run()
 
     def close_dialog(self):
         self.dialog.destroy()
