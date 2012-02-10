@@ -27,12 +27,14 @@ from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Easyfc
+from xml.sax.saxutils import quoteattr
 
 __all__ = (
 	    "FontsTweakTool",
           )
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
+sample_text = 'The quick brown fox jumps over the lazy dog'
 
 class LangList:
 
@@ -173,6 +175,7 @@ class FontsTweakTool:
                     self.config.add_alias(lang, a)
                 except gi._glib.GError:
                     pass
+                self.render_label(combobox)
 
     def closeClicked(self, *args):
 	Gtk.main_quit()
@@ -180,6 +183,17 @@ class FontsTweakTool:
     def applyClicked(self, *args):
         self.config.save()
         Gtk.main_quit()
+
+    def render_label(self, combobox):
+        model = combobox.get_model()
+        iter = combobox.get_active_iter()
+        if iter != None:
+            font = model.get(iter, 0)[0]
+            iter = model.get_iter_first()
+            alias = model.get(iter, 0)[0]
+            self.label[alias].set_markup(
+                "<span font_family=%s font_size=\"small\">%s</span>" % (
+                    quoteattr(font), sample_text))
 
     def render_combobox(self, lang, alias):
         if self.fontslist.has_key(lang) == False:
@@ -195,6 +209,7 @@ class FontsTweakTool:
             if a.get_name() == alias:
                 fn = a.get_font()
                 break
+        family = alias
         if fn != None:
             model = self.combobox[alias].get_model()
             iter = model.get_iter_first()
@@ -202,10 +217,12 @@ class FontsTweakTool:
                 f = model.get(iter, 0)[0]
                 if f == unicode(fn, "utf8"):
                     self.combobox[alias].set_active_iter(iter)
+                    family = f
                     break
                 iter = model.iter_next(iter)
         else:
             self.combobox[alias].set_active(0)
+        self.render_label(self.combobox[alias])
 
     def __init__(self):
         self.__initialized = False
@@ -236,6 +253,13 @@ class FontsTweakTool:
 	self.combobox['monospace'] = builder.get_object("monospace_combobox")
 	self.combobox['cursive'] = builder.get_object("cursive_combobox")
 	self.combobox['fantasy'] = builder.get_object("fantasy_combobox")
+
+        self.label = {}
+	self.label['sans-serif'] = builder.get_object("sans_label")
+	self.label['serif'] = builder.get_object("serif_label")
+	self.label['monospace'] = builder.get_object("monospace_label")
+	self.label['cursive'] = builder.get_object("cursive_label")
+	self.label['fantasy'] = builder.get_object("fantasy_label")
 
         for f in alias_names:
             renderer_text = Gtk.CellRendererText()
