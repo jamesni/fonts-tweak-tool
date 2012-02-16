@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-16 17:21+0800\n"
+"POT-Creation-Date: 2012-02-16 16:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,32 +23,32 @@ msgstr ""
 
 #: ../data/fontstools.ui.h:2
 msgid ""
-"<span font_size=\"small\" font_family=\"cursive\">The quick brown fox jumps "
-"over the lazy dog</span>"
+"<span font_size=\"small\" font_family=\"cursive"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:3
 msgid ""
-"<span font_size=\"small\" font_family=\"fantasy\">The quick brown fox jumps "
-"over the lazy dog</span>"
+"<span font_size=\"small\" font_family=\"fantasy"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:4
 msgid ""
-"<span font_size=\"small\" font_family=\"monospace\">The quick brown fox "
-"jumps over the lazy dog</span>"
+"<span font_size=\"small\" font_family=\"monospace"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:5
 msgid ""
-"<span font_size=\"small\" font_family=\"sans-serif\">The quick brown fox "
-"jumps over the lazy dog</span>"
+"<span font_size=\"small\" font_family=\"sans-serif"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:6
 msgid ""
-"<span font_size=\"small\" font_family=\"serif\">The quick brown fox jumps "
-"over the lazy dog</span>"
+"<span font_size=\"small\" font_family=\"serif\">abcdefghijklmnopqrstuvwxyz</"
+"span>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:7
