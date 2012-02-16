@@ -23,6 +23,8 @@ import sys
 import os
 import string
 import gi
+import gettext
+import locale
 from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
@@ -35,6 +37,7 @@ __all__ = (
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
 sample_text = 'The quick brown fox jumps over the lazy dog'
+GETTEXT_PACKAGE = 'fonts-tweak-tool'
 
 class LangList:
 
@@ -321,6 +324,15 @@ class FontsTweakTool:
         self.__initialized = True
 
 def main(argv):
+    try:
+        locale.setlocale(locale.LC_ALL, '')
+    except Locale.Error, e:
+        os.environ['LC_ALL'] = 'C'
+        locale.setlocale(locale.LC_ALL, '')
+
+    gettext.bind_textdomain_codeset(GETTEXT_PACKAGE, locale.nl_langinfo(locale.CODESET))
+    gettext.bindtextdomain(GETTEXT_PACKAGE, '/usr/share/locale')
+    gettext.textdomain(GETTEXT_PACKAGE)
     tool = FontsTweakTool()
     tool.window.show_all()
     Gtk.main()
