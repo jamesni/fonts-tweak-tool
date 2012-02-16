@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 18:24+0900\n"
+"POT-Creation-Date: 2012-02-16 16:32+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,89 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../fontstweak/fontstools.ui.h:1
+#: ../data/fontstools.ui.h:1
 msgid "<b>Alias fonts:</b>"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:2
+#: ../data/fontstools.ui.h:2
+msgid ""
+"<span font_size=\"small\" font_family=\"cursive"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:3
+msgid ""
+"<span font_size=\"small\" font_family=\"fantasy"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:4
+msgid ""
+"<span font_size=\"small\" font_family=\"monospace"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:5
+msgid ""
+"<span font_size=\"small\" font_family=\"sans-serif"
+"\">abcdefghijklmnopqrstuvwxyz</span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:6
+msgid ""
+"<span font_size=\"small\" font_family=\"serif\">abcdefghijklmnopqrstuvwxyz</"
+"span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:7
+msgid "<span font_size=\"small\">Sample: </span>"
+msgstr ""
+
+#: ../data/fontstools.ui.h:8
 msgid "Add a language"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:3
+#: ../data/fontstools.ui.h:9
 msgid "Cursive:"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:4
+#: ../data/fontstools.ui.h:10
 msgid "Fantasy:"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:5
+#: ../data/fontstools.ui.h:11
 msgid "Language Selection"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:6
+#: ../data/fontstools.ui.h:12
 msgid "Monospace:"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:7
+#: ../data/fontstools.ui.h:13
 msgid "Please select a language"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:8
+#: ../data/fontstools.ui.h:14
 msgid "Remove the language"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:9
+#: ../data/fontstools.ui.h:15
 msgid "Sans Serif:"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:10
+#: ../data/fontstools.ui.h:16
 msgid "Select"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:11
+#: ../data/fontstools.ui.h:17
 msgid "Serif:"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:12
+#: ../data/fontstools.ui.h:18
 msgid "page 1"
 msgstr ""
 
-#: ../fontstweak/fontstools.ui.h:13
+#: ../data/fontstools.ui.h:19
 msgid "page 2"
 msgstr ""
 

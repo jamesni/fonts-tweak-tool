@@ -1,5 +1,0 @@
-include AUTHOR
-include COPYING
-include fonts-tweak-tool.desktop
-include fontstweak/fontstools.ui
-include fontstweak/locale-list
