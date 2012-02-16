@@ -8,7 +8,7 @@ DISTCLEANFILES =		\
 	$(NULL)
 
 ##
-pyscript_sources =	\
+pyscripts_sources =	\
 	__init__.py	\
 	tool.py		\
 	$(NULL)
