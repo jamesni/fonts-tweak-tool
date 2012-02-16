@@ -15,7 +15,6 @@ setup (name = "fonts-tweak-tool",
     author_email = 'jni@redhat.com',
     license = 'LGPLv3+',
     platforms=["Linux"],
-    scripts = ["fonts-tweak-tool"],
 
     package_data = {'fontstweak':['fontstools.ui', 'locale-list']},   
     include_package_data = True, 

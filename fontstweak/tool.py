@@ -23,6 +23,8 @@ import sys
 import os
 import string
 import gi
+import gettext
+import locale
 from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
@@ -35,6 +37,7 @@ __all__ = (
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
 sample_text = 'The quick brown fox jumps over the lazy dog'
+GETTEXT_PACKAGE = 'fonts-tweak-tool'
 
 class LangList:
 
@@ -42,13 +45,14 @@ class LangList:
         self.langlist = OrderedDict()
         self.parent_window = parent
         path = os.path.dirname(os.path.realpath(__file__))
-        localefile = os.path.join(path, 'locale-list')
+        localefile = os.path.join(path, '..', 'data', 'locale-list')
         
         try:
             fd = open(localefile, "r")
         except:
             try:
-		fd = open("/usr/share/system-config-language/locale-list", "r")
+                # XXX: need to polish it with the better way.
+		fd = open("/usr/share/fonts-tweak-tool/locale-list", "r")
             except:
                 raise RuntimeError, ("Cannot find locale-list")
 
@@ -63,7 +67,10 @@ class LangList:
     def show_dialog(self):
         builder = Gtk.Builder()
         path = os.path.dirname(os.path.realpath(__file__))
-        uifile = os.path.join(path, 'fontstools.ui')
+        uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
+        if not os.path.isfile(uifile):
+            # need to polish it with the better way
+            uifile = "/usr/share/fonts-tweak-tool/fontstools.ui"
         builder.add_from_file(uifile)
         self.dialog = builder.get_object("dialog2")
         self.dialog.set_transient_for(self.parent_window)
@@ -228,7 +235,10 @@ class FontsTweakTool:
         self.__initialized = False
         builder = Gtk.Builder()
         path = os.path.dirname(os.path.realpath(__file__))
-        uifile = os.path.join(path, 'fontstools.ui')
+        uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
+        if not os.path.isfile(uifile):
+            # need to polish it with the better way
+            uifile = "/usr/share/fonts-tweak-tool/fontstools.ui"
 	builder.add_from_file(uifile) 
         self.window = builder.get_object("dialog1")
         self.window.connect("destroy", Gtk.main_quit)
@@ -314,6 +324,15 @@ class FontsTweakTool:
         self.__initialized = True
 
 def main(argv):
+    try:
+        locale.setlocale(locale.LC_ALL, '')
+    except Locale.Error, e:
+        os.environ['LC_ALL'] = 'C'
+        locale.setlocale(locale.LC_ALL, '')
+
+    gettext.bind_textdomain_codeset(GETTEXT_PACKAGE, locale.nl_langinfo(locale.CODESET))
+    gettext.bindtextdomain(GETTEXT_PACKAGE, '/usr/share/locale')
+    gettext.textdomain(GETTEXT_PACKAGE)
     tool = FontsTweakTool()
     tool.window.show_all()
     Gtk.main()
