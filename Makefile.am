@@ -10,6 +10,7 @@ SUBDIRS =		\
 EXTRA_DIST =			\
 	$(desktop_in_files)	\
 	$(bin_SCRIPTS)		\
+	setup.py		\
 	$(NULL)
 MAINTAINERCLEANFILES =		\
 	$(srcdir)/INSTALL	\
@@ -47,11 +48,11 @@ bin_SCRIPTS =			\
 
 ##
 all-local:
-	$(PYTHON) setup.py build
+	$(PYTHON) $(top_srcdir)/setup.py build
 
 ##
 install-exec-local:
-	$(PYTHON) setup.py install --root=$(DESTDIR) --prefix=$(prefix)
+	$(PYTHON) $(top_srcdir)/setup.py install --root=$(DESTDIR) --prefix=$(prefix)
 
 ##
 uninstall-local:
