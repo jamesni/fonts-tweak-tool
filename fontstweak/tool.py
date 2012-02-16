@@ -36,7 +36,7 @@ __all__ = (
           )
 
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
-sample_text = 'The quick brown fox jumps over the lazy dog'
+#sample_text = 'The quick brown fox jumps over the lazy dog'
 GETTEXT_PACKAGE = 'fonts-tweak-tool'
 
 class LangList:
@@ -198,9 +198,9 @@ class FontsTweakTool:
             font = model.get(iter, 0)[0]
             iter = model.get_iter_first()
             alias = model.get(iter, 0)[0]
-            self.label[alias].set_markup(
-                "<span font_family=%s font_size=\"small\">%s</span>" % (
-                    quoteattr(font), sample_text))
+            #self.label[alias].set_markup(
+            #    "<span font_family=%s font_size=\"small\">%s</span>" % (
+            #        quoteattr(font), sample_text))
 
     def render_combobox(self, lang, alias):
         if self.fontslist.has_key(lang) == False:

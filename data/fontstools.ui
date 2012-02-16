@@ -326,7 +326,7 @@
                                   <object class="GtkLabel" id="sans_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="sans-serif"&gt;abcdefghijklmnopqrstuvwxyz&lt;/span&gt;</property>
+                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="sans-serif"&gt;The quick brown fox jumps over the lazy dog&lt;/span&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
@@ -365,7 +365,7 @@
                                   <object class="GtkLabel" id="serif_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="serif"&gt;abcdefghijklmnopqrstuvwxyz&lt;/span&gt;</property>
+                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="serif"&gt;The quick brown fox jumps over the lazy dog&lt;/span&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
@@ -404,7 +404,7 @@
                                   <object class="GtkLabel" id="monospace_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="monospace"&gt;abcdefghijklmnopqrstuvwxyz&lt;/span&gt;</property>
+                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="monospace"&gt;The quick brown fox jumps over the lazy dog&lt;/span&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
@@ -443,7 +443,7 @@
                                   <object class="GtkLabel" id="cursive_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="cursive"&gt;abcdefghijklmnopqrstuvwxyz&lt;/span&gt;</property>
+                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="cursive"&gt;The quick brown fox jumps over the lazy dog&lt;/span&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
@@ -482,7 +482,7 @@
                                   <object class="GtkLabel" id="fantasy_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="fantasy"&gt;abcdefghijklmnopqrstuvwxyz&lt;/span&gt;</property>
+                                    <property name="label" translatable="yes">&lt;span font_size="small" font_family="fantasy"&gt;The quick brown fox jumps over the lazy dog&lt;/span&gt;</property>
                                     <property name="use_markup">True</property>
                                   </object>
                                   <packing>
