@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-16 16:32+0900\n"
+"POT-Creation-Date: 2012-02-17 11:01+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,84 +22,54 @@ msgid "<b>Alias fonts:</b>"
 msgstr ""
 
 #: ../data/fontstools.ui.h:2
-msgid ""
-"<span font_size=\"small\" font_family=\"cursive"
-"\">abcdefghijklmnopqrstuvwxyz</span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:3
-msgid ""
-"<span font_size=\"small\" font_family=\"fantasy"
-"\">abcdefghijklmnopqrstuvwxyz</span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:4
-msgid ""
-"<span font_size=\"small\" font_family=\"monospace"
-"\">abcdefghijklmnopqrstuvwxyz</span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:5
-msgid ""
-"<span font_size=\"small\" font_family=\"sans-serif"
-"\">abcdefghijklmnopqrstuvwxyz</span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:6
-msgid ""
-"<span font_size=\"small\" font_family=\"serif\">abcdefghijklmnopqrstuvwxyz</"
-"span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:7
 msgid "<span font_size=\"small\">Sample: </span>"
 msgstr ""
 
-#: ../data/fontstools.ui.h:8
+#: ../data/fontstools.ui.h:3
 msgid "Add a language"
 msgstr ""
 
-#: ../data/fontstools.ui.h:9
+#: ../data/fontstools.ui.h:4
 msgid "Cursive:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:10
+#: ../data/fontstools.ui.h:5
 msgid "Fantasy:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:11
+#: ../data/fontstools.ui.h:6
 msgid "Language Selection"
 msgstr ""
 
-#: ../data/fontstools.ui.h:12
+#: ../data/fontstools.ui.h:7
 msgid "Monospace:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:13
+#: ../data/fontstools.ui.h:8
 msgid "Please select a language"
 msgstr ""
 
-#: ../data/fontstools.ui.h:14
+#: ../data/fontstools.ui.h:9
 msgid "Remove the language"
 msgstr ""
 
-#: ../data/fontstools.ui.h:15
+#: ../data/fontstools.ui.h:10
 msgid "Sans Serif:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:16
+#: ../data/fontstools.ui.h:11
 msgid "Select"
 msgstr ""
 
-#: ../data/fontstools.ui.h:17
+#: ../data/fontstools.ui.h:12
 msgid "Serif:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:18
+#: ../data/fontstools.ui.h:13
 msgid "page 1"
 msgstr ""
 
-#: ../data/fontstools.ui.h:19
+#: ../data/fontstools.ui.h:14
 msgid "page 2"
 msgstr ""
 
@@ -109,4 +79,8 @@ msgstr ""
 
 #: ../fonts-tweak-tool.desktop.in.h:2
 msgid "Tweak fonts by language using fontconfig"
+msgstr ""
+
+#: ../fontstweak/tool.py:43
+msgid "The quick brown fox jumps over the lazy dog"
 msgstr ""

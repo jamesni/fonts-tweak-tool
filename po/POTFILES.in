@@ -1,2 +1,3 @@
 [type: gettext/glade]data/fontstools.ui
 fonts-tweak-tool.desktop.in
+fontstweak/tool.py
