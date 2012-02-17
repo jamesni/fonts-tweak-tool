@@ -65,7 +65,7 @@ clean-local:
 ##
 ChangeLog: $(srcdir)/ChangeLog
 $(srcdir)/ChangeLog:
-	$(AM_VN_GEN) if test -d "$(srcdir)/.git"; then	\
+	$(AM_V_GEN) if test -d "$(srcdir)/.git"; then	\
 	 (GIT_DIR=$(top_srcdir)/.git ./missing --run	\
 	  git log --stat) | fmt --split-only > $@.tmp	\
 	 && mv -f $@.tmp $@				\
