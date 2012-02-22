@@ -30,14 +30,19 @@ from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Easyfc
 from xml.sax.saxutils import quoteattr
+from xml.sax.saxutils import escape
 
 __all__ = (
 	    "FontsTweakTool",
           )
 
+def N_(s):
+    return s
+
 alias_names = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy']
-sample_text = 'The quick brown fox jumps over the lazy dog'
+sample_text = N_('The quick brown fox jumps over the lazy dog')
 GETTEXT_PACKAGE = 'fonts-tweak-tool'
+LOCALEDIR = '/usr/share/locale'
 
 class LangList:
 
@@ -182,7 +187,7 @@ class FontsTweakTool:
                     self.config.add_alias(lang, a)
                 except gi._glib.GError:
                     pass
-                self.render_label(combobox)
+                self.render_label(combobox, lang)
 
     def closeClicked(self, *args):
 	Gtk.main_quit()
@@ -191,7 +196,17 @@ class FontsTweakTool:
         self.config.save()
         Gtk.main_quit()
 
-    def render_label(self, combobox):
+    def translate_text(self, text, lang):
+        if self.translations.has_key(lang) == False:
+            self.translations[lang] = gettext.translation(
+                domain=GETTEXT_PACKAGE,
+                localedir=LOCALEDIR,
+                languages=[lang.replace('-', '_')],
+                fallback=True,
+                codeset="utf8")
+        return unicode(self.translations[lang].gettext(text), "utf8")
+
+    def render_label(self, combobox, lang):
         model = combobox.get_model()
         iter = combobox.get_active_iter()
         if iter != None:
@@ -200,7 +215,8 @@ class FontsTweakTool:
             alias = model.get(iter, 0)[0]
             self.label[alias].set_markup(
                 "<span font_family=%s font_size=\"small\">%s</span>" % (
-                    quoteattr(font), sample_text))
+                    quoteattr(font),
+                    escape(self.translate_text(sample_text, lang))))
 
     def render_combobox(self, lang, alias):
         if self.fontslist.has_key(lang) == False:
@@ -229,7 +245,7 @@ class FontsTweakTool:
                 iter = model.iter_next(iter)
         else:
             self.combobox[alias].set_active(0)
-        self.render_label(self.combobox[alias])
+        self.render_label(self.combobox[alias], lang)
 
     def __init__(self):
         self.__initialized = False
@@ -302,6 +318,7 @@ class FontsTweakTool:
 
         self.languages = LangList(self.window)
         self.data = {}
+        self.translations = {}
 
 	Easyfc.init()
 
@@ -331,7 +348,7 @@ def main(argv):
         locale.setlocale(locale.LC_ALL, '')
 
     gettext.bind_textdomain_codeset(GETTEXT_PACKAGE, locale.nl_langinfo(locale.CODESET))
-    gettext.bindtextdomain(GETTEXT_PACKAGE, '/usr/share/locale')
+    gettext.bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR)
     gettext.textdomain(GETTEXT_PACKAGE)
     tool = FontsTweakTool()
     tool.window.show_all()
