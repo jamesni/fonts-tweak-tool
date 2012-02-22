@@ -65,12 +65,12 @@ clean-local:
 ##
 ChangeLog: $(srcdir)/ChangeLog
 $(srcdir)/ChangeLog:
-	$(AM_VN_GEN) if test -d "$(srcdir)/.git"; then	\
+	$(AM_V_GEN) if test -d "$(srcdir)/.git"; then	\
 	 (GIT_DIR=$(top_srcdir)/.git ./missing --run	\
 	  git log --stat) | fmt --split-only > $@.tmp	\
 	 && mv -f $@.tmp $@				\
 	 || ($(RM) $@.tmp;				\
-	     echo Failed to generate ChangeLog.  your ChangeLog may be outdatged >&2;	\
+	     echo Failed to generate ChangeLog.  your ChangeLog may be outdated >&2;	\
 	     (test -f $@ || echo git-log is required to genereate this file >> $@));	\
 	 else						\
 	   test -f $@ || 				\
