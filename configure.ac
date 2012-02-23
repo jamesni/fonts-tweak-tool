@@ -29,5 +29,6 @@ AC_CONFIG_FILES([
 	data/Makefile
 	fontstweak/Makefile
 	po/Makefile.in
+	setup.py
 ])
 AC_OUTPUT
