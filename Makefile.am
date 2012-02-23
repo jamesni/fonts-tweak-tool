@@ -10,7 +10,7 @@ SUBDIRS =		\
 EXTRA_DIST =			\
 	$(desktop_in_files)	\
 	$(bin_SCRIPTS)		\
-	setup.py		\
+	setup.py.in		\
 	$(NULL)
 MAINTAINERCLEANFILES =		\
 	$(srcdir)/INSTALL	\
@@ -28,6 +28,7 @@ MAINTAINERCLEANFILES =		\
 	$(NULL)
 DISTCLEANFILES =		\
 	$(desktop_DATA)		\
+	setup.py		\
 	$(NULL)
 CLEANFILES =			\
 	$(desktop_DATA)		\
