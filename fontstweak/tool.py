@@ -51,7 +51,9 @@ class LangList:
         self.parent_window = parent
         path = os.path.dirname(os.path.realpath(__file__))
         localefile = os.path.join(path, '..', 'data', 'locale-list')
-        
+
+        # Add "any" language to the list.
+        self.langlist[''] = N_('Default')
         try:
             fd = open(localefile, "r")
         except:
