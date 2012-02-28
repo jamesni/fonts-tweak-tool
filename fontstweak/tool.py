@@ -193,7 +193,13 @@ class FontsTweakTool:
 	Gtk.main_quit()
 
     def applyClicked(self, *args):
-        self.config.save()
+        try:
+            self.config.save()
+        except gi._glib.GError, e:
+            if e.domain != 'ezfc-error-quark' and e.code != 6:
+                raise
+            else:
+                print "%s: %s" % (sys.argv[0], e)
         Gtk.main_quit()
 
     def translate_text(self, text, lang):
