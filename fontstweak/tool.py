@@ -51,7 +51,9 @@ class LangList:
         self.parent_window = parent
         path = os.path.dirname(os.path.realpath(__file__))
         localefile = os.path.join(path, '..', 'data', 'locale-list')
-        
+
+        # Add "any" language to the list.
+        self.langlist[''] = N_('Default')
         try:
             fd = open(localefile, "r")
         except:
@@ -71,6 +73,7 @@ class LangList:
 
     def show_dialog(self):
         builder = Gtk.Builder()
+	builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
         uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
         if not os.path.isfile(uifile):
@@ -256,6 +259,7 @@ class FontsTweakTool:
     def __init__(self):
         self.__initialized = False
         builder = Gtk.Builder()
+	builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
         uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
         if not os.path.isfile(uifile):
