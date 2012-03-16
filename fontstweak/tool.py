@@ -103,13 +103,13 @@ class LangList:
         lang = None
         fullName = None
         if self.dialog != None:
-            selection = self.langView.get_selection().get_selected()
-            if selection:
-                model, iter = selection
-                lang = self.langStore.get_value(iter, 0)
-                fullName = self.langStore.get_value(iter, 1)
-
-        return [lang, fullName]
+            model, iterator = self.langView.get_selection().get_selected()
+            if iterator:
+                lang = self.langStore.get_value(iterator, 0)
+                fullName = self.langStore.get_value(iterator, 1)
+	        return (lang, fullName)
+            else:
+                return None
 
 class FontsTweakTool:
 
@@ -150,14 +150,16 @@ class FontsTweakTool:
         response = self.languages.show_dialog()
 
         if response != Gtk.ResponseType.CANCEL:
-            lang, desc = self.languages.get_selection()
-            iter = self.add_language(desc, lang)
-            if iter == None:
-                print "%s has already been added.\n" % lang
-            else:
-                model = self.lang_view.get_model()
-                path = model.get_path(iter)
-                self.lang_view.set_cursor(path, None, False)
+            selection = self.languages.get_selection()
+	    if selection != None:
+	        lang, desc = selection
+		iter = self.add_language(desc, lang)
+            	if iter == None:
+                    print "%s has already been added.\n" % lang
+            	else:
+                    model = self.lang_view.get_model()
+                    path = model.get_path(iter)
+                    self.lang_view.set_cursor(path, None, False)
 
         self.languages.close_dialog()
 
