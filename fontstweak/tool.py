@@ -220,6 +220,12 @@ class FontsTweakTool:
         iter = combobox.get_active_iter()
         if iter != None:
             font = model.get(iter, 0)[0]
+            # Work around for PyGObject versions 3.0.3 and 3.1.0,
+            # which decode strings in Gtk.TreeModel when retrieval.
+            # This behavior was reverted in 3.1.1:
+            # http://git.gnome.org/browse/pygobject/commit/?id=0285e107
+            if type(font) is not unicode:
+                font = unicode(font, "utf8")
             iter = model.get_iter_first()
             alias = model.get(iter, 0)[0]
             self.label[alias].set_markup(
@@ -235,21 +241,19 @@ class FontsTweakTool:
         self.lists[alias].clear()
         self.lists[alias].append([alias])
         for f in self.fontslist[lang][alias]:
-	    self.lists[alias].append([unicode(f, "utf8")])
+	    self.lists[alias].append([f])
         fn = None
         for a in self.config.get_aliases(lang):
             if a.get_name() == alias:
                 fn = a.get_font()
                 break
-        family = alias
         if fn != None:
             model = self.combobox[alias].get_model()
             iter = model.get_iter_first()
             while iter != None:
                 f = model.get(iter, 0)[0]
-                if f == unicode(fn, "utf8"):
+                if f == fn:
                     self.combobox[alias].set_active_iter(iter)
-                    family = f
                     break
                 iter = model.iter_next(iter)
         else:
