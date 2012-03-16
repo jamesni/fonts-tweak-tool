@@ -105,7 +105,7 @@ class LangList:
         if self.dialog != None:
             model, iterator = self.langView.get_selection().get_selected()
             if iterator:
-                lang = self.langStore.get_value(iterator, 0)
+                lang = model.get_value(iterator, 0)
                 fullName = self.langStore.get_value(iterator, 1)
 	        return (lang, fullName)
             else:
