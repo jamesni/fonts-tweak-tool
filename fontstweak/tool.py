@@ -125,6 +125,7 @@ class FontsTweakTool:
                 self.render_combobox(lang, n)
             self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
+	self.fonts_selection_changed = True
 
     def add_language(self, desc, lang):
         retval = True
@@ -193,6 +194,16 @@ class FontsTweakTool:
                 self.render_label(combobox, lang)
 
     def closeClicked(self, *args):
+	if self.fonts_selection_changed:
+	    dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                	Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
+                	"Do you want to save your changes before closing?")
+	    dialog.show_all()
+	    response = dialog.run()
+	    
+	    if response == Gtk.ResponseType.YES:
+	        self.applyClicked()	
+	    dialog.destroy()   
 	Gtk.main_quit()
 
     def applyClicked(self, *args):
@@ -262,6 +273,7 @@ class FontsTweakTool:
 
     def __init__(self):
         self.__initialized = False
+	self.fonts_selection_changed = False
         builder = Gtk.Builder()
 	builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
