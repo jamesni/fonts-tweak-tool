@@ -114,7 +114,7 @@ class LangList:
 class FontsTweakTool:
 
     def selectionChanged(self, *args):
-        selection = self.lang_view.get_selection()
+	selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
         if iter == None:
             self.note_book.set_current_page(1)
@@ -123,10 +123,10 @@ class FontsTweakTool:
             lang = model.get_value(iter, 1)
             for n in alias_names:
                 self.render_combobox(lang, n)
-            self.note_book.set_current_page(0)
+	    self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
-	self.fonts_selection_changed = True
-
+            self.font_changed = False
+	
     def add_language(self, desc, lang):
         retval = True
         model = self.lang_view.get_model()
@@ -148,7 +148,7 @@ class FontsTweakTool:
 
     def addlangClicked(self, *args):
         response = self.languages.show_dialog()
-
+	self.language_selected = True
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
 	    if selection != None:
@@ -176,7 +176,7 @@ class FontsTweakTool:
     def fontChanged(self, combobox, *args):
         if self.__initialized == False:
             return
-        selection = self.lang_view.get_selection()
+	selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
         if iter != None:
             lang = model.get(iter, 1)[0]
@@ -194,18 +194,27 @@ class FontsTweakTool:
                 except gi._glib.GError:
                     pass
                 self.render_label(combobox, lang)
+                self.font_changed = True
 
     def closeClicked(self, *args):
-	if self.fonts_selection_changed:
+	if self.language_selected and not self.font_changed:
 	    dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
-                	Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
+                        Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
+                        "The added language will be discard after closing")
+            dialog.show_all()
+            response = dialog.run()
+            dialog.destroy()
+	
+	if self.font_changed:
+	    dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+           		Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
                 	"Do you want to save your changes before closing?")
 	    dialog.show_all()
 	    response = dialog.run()
 	    
 	    if response == Gtk.ResponseType.YES:
-	        self.applyClicked()	
-	    dialog.destroy()   
+	      	self.applyClicked()	
+	    dialog.destroy()
 	Gtk.main_quit()
 
     def applyClicked(self, *args):
@@ -275,7 +284,8 @@ class FontsTweakTool:
 
     def __init__(self):
         self.__initialized = False
-	self.fonts_selection_changed = False
+	self.font_changed = False
+	self.language_selected = False
         builder = Gtk.Builder()
 	builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
@@ -341,7 +351,7 @@ class FontsTweakTool:
 	self.apply_button = builder.get_object("button1")
 	self.apply_button.connect("clicked", self.applyClicked)
 
-        selection = self.lang_view.get_selection()
+     	selection = self.lang_view.get_selection()
         selection.connect("changed", self.selectionChanged)
 
         self.languages = LangList(self.window)
@@ -365,8 +375,8 @@ class FontsTweakTool:
             for a in self.config.get_aliases(l):
                 an = a.get_name()
                 self.render_combobox(l, an)
-
-        self.__initialized = True
+	
+	self.__initialized = True
 
 def main(argv):
     try:
@@ -380,4 +390,5 @@ def main(argv):
     gettext.textdomain(GETTEXT_PACKAGE)
     tool = FontsTweakTool()
     tool.window.show_all()
+    tool.font_changed = False
     Gtk.main()
