@@ -274,7 +274,9 @@ class FontsTweakTool:
             iter = model.get_iter_first()
             while iter != None:
                 f = model.get(iter, 0)[0]
-                if f == fn:
+		if type(fn) is not unicode:
+		    fontname = unicode(fn, "utf8") 
+                if f == fontname:
                     self.combobox[alias].set_active_iter(iter)
                     break
                 iter = model.iter_next(iter)
