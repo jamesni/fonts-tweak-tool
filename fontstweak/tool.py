@@ -1,4 +1,4 @@
-#vim:set et sts=4 sw=4:
+# vim: set et sts=4 sw=4:
 # -*- encoding: utf-8 -*-
 #
 # Fonts Tweak Tool
@@ -33,7 +33,7 @@ from xml.sax.saxutils import quoteattr
 from xml.sax.saxutils import escape
 
 __all__ = (
-	    "FontsTweakTool",
+            "FontsTweakTool",
           )
 
 def N_(s):
@@ -59,7 +59,7 @@ class LangList:
         except:
             try:
                 # XXX: need to polish it with the better way.
-		fd = open("/usr/share/fonts-tweak-tool/locale-list", "r")
+                fd = open("/usr/share/fonts-tweak-tool/locale-list", "r")
             except:
                 raise RuntimeError, ("Cannot find locale-list")
 
@@ -67,13 +67,13 @@ class LangList:
             line = fd.readline()
             if not line:
                 break
-	    tokens = string.split(line)
+            tokens = string.split(line)
             lang = str(tokens[0]).split('.')[0].replace('_', '-')
             self.langlist[lang] = string.join(tokens[3:], ' ')
 
     def show_dialog(self):
         builder = Gtk.Builder()
-	builder.set_translation_domain(GETTEXT_PACKAGE)
+        builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
         uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
         if not os.path.isfile(uifile):
@@ -107,14 +107,14 @@ class LangList:
             if iterator:
                 lang = model.get_value(iterator, 0)
                 fullName = self.langStore.get_value(iterator, 1)
-	        return (lang, fullName)
+                return (lang, fullName)
             else:
                 return None
 
 class FontsTweakTool:
 
     def selectionChanged(self, *args):
-	selection = self.lang_view.get_selection()
+        selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
         if iter == None:
             self.note_book.set_current_page(1)
@@ -123,10 +123,10 @@ class FontsTweakTool:
             lang = model.get_value(iter, 1)
             for n in alias_names:
                 self.render_combobox(lang, n)
-	    self.note_book.set_current_page(0)
+            self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
             self.font_changed = False
-	
+
     def add_language(self, desc, lang):
         retval = True
         model = self.lang_view.get_model()
@@ -148,15 +148,15 @@ class FontsTweakTool:
 
     def addlangClicked(self, *args):
         response = self.languages.show_dialog()
-	self.language_selected = True
+        self.language_selected = True
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
-	    if selection != None:
-	        lang, desc = selection
-		iter = self.add_language(desc, lang)
-            	if iter == None:
+            if selection != None:
+                lang, desc = selection
+                iter = self.add_language(desc, lang)
+                if iter == None:
                     print "%s has already been added.\n" % lang
-            	else:
+                else:
                     model = self.lang_view.get_model()
                     path = model.get_path(iter)
                     self.lang_view.set_cursor(path, None, False)
@@ -176,7 +176,7 @@ class FontsTweakTool:
     def fontChanged(self, combobox, *args):
         if self.__initialized == False:
             return
-	selection = self.lang_view.get_selection()
+        selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
         if iter != None:
             lang = model.get(iter, 1)[0]
@@ -197,25 +197,25 @@ class FontsTweakTool:
                 self.font_changed = True
 
     def closeClicked(self, *args):
-	if self.language_selected and not self.font_changed:
-	    dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+        if self.language_selected and not self.font_changed:
+            dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
                         Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
                         "The added language will be discard after closing")
             dialog.show_all()
             response = dialog.run()
             dialog.destroy()
-	
-	if self.font_changed:
-	    dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
-           		Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
-                	"Do you want to save your changes before closing?")
-	    dialog.show_all()
-	    response = dialog.run()
-	    
-	    if response == Gtk.ResponseType.YES:
-	      	self.applyClicked()	
-	    dialog.destroy()
-	Gtk.main_quit()
+
+        if self.font_changed:
+            dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                        Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
+                        "Do you want to save your changes before closing?")
+            dialog.show_all()
+            response = dialog.run()
+
+            if response == Gtk.ResponseType.YES:
+                self.applyClicked()
+            dialog.destroy()
+        Gtk.main_quit()
 
     def applyClicked(self, *args):
         try:
@@ -263,7 +263,7 @@ class FontsTweakTool:
         self.lists[alias].clear()
         self.lists[alias].append([alias])
         for f in self.fontslist[lang][alias]:
-	    self.lists[alias].append([f])
+            self.lists[alias].append([f])
         fn = None
         for a in self.config.get_aliases(lang):
             if a.get_name() == alias:
@@ -274,8 +274,8 @@ class FontsTweakTool:
             iter = model.get_iter_first()
             while iter != None:
                 f = model.get(iter, 0)[0]
-		if type(fn) is not unicode:
-		    fontname = unicode(fn, "utf8") 
+                if type(fn) is not unicode:
+                    fontname = unicode(fn, "utf8") 
                 if f == fontname:
                     self.combobox[alias].set_active_iter(iter)
                     break
@@ -286,46 +286,46 @@ class FontsTweakTool:
 
     def __init__(self):
         self.__initialized = False
-	self.font_changed = False
-	self.language_selected = False
+        self.font_changed = False
+        self.language_selected = False
         builder = Gtk.Builder()
-	builder.set_translation_domain(GETTEXT_PACKAGE)
+        builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
         uifile = os.path.join(path, '..', 'data', 'fontstools.ui')
         if not os.path.isfile(uifile):
             # need to polish it with the better way
             uifile = "/usr/share/fonts-tweak-tool/fontstools.ui"
-	builder.add_from_file(uifile) 
+        builder.add_from_file(uifile) 
         self.window = builder.get_object("dialog1")
         self.window.connect("destroy", Gtk.main_quit)
-	self.window.set_title("fonts-tweak-tool")
-        self.window.set_size_request(640, 480)        
-	
-	self.scrollwindow = builder.get_object("scrolledwindow1")
-	self.scrollwindow.set_min_content_width(200)
-	self.lang_view = builder.get_object("treeview1")
+        self.window.set_title("fonts-tweak-tool")
+        self.window.set_size_request(640, 480)
+
+        self.scrollwindow = builder.get_object("scrolledwindow1")
+        self.scrollwindow.set_min_content_width(200)
+        self.lang_view = builder.get_object("treeview1")
         self.lang_list = builder.get_object("lang_list")
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
-	self.lang_view.append_column(column)
+        self.lang_view.append_column(column)
 
-	self.note_book = builder.get_object("notebook1")
-	self.note_book.set_current_page(1)
+        self.note_book = builder.get_object("notebook1")
+        self.note_book.set_current_page(1)
 
         self.fontslist = {}
 
         self.combobox = {}
-	self.combobox['sans-serif'] = builder.get_object("sans_combobox")
-	self.combobox['serif'] = builder.get_object("serif_combobox")
-	self.combobox['monospace'] = builder.get_object("monospace_combobox")
-	self.combobox['cursive'] = builder.get_object("cursive_combobox")
-	self.combobox['fantasy'] = builder.get_object("fantasy_combobox")
+        self.combobox['sans-serif'] = builder.get_object("sans_combobox")
+        self.combobox['serif'] = builder.get_object("serif_combobox")
+        self.combobox['monospace'] = builder.get_object("monospace_combobox")
+        self.combobox['cursive'] = builder.get_object("cursive_combobox")
+        self.combobox['fantasy'] = builder.get_object("fantasy_combobox")
 
         self.label = {}
-	self.label['sans-serif'] = builder.get_object("sans_label")
-	self.label['serif'] = builder.get_object("serif_label")
-	self.label['monospace'] = builder.get_object("monospace_label")
-	self.label['cursive'] = builder.get_object("cursive_label")
-	self.label['fantasy'] = builder.get_object("fantasy_label")
+        self.label['sans-serif'] = builder.get_object("sans_label")
+        self.label['serif'] = builder.get_object("serif_label")
+        self.label['monospace'] = builder.get_object("monospace_label")
+        self.label['cursive'] = builder.get_object("cursive_label")
+        self.label['fantasy'] = builder.get_object("fantasy_label")
 
         for f in alias_names:
             renderer_text = Gtk.CellRendererText()
@@ -335,32 +335,32 @@ class FontsTweakTool:
 
         self.lists = {}
         self.lists['sans-serif'] = builder.get_object("sans_fonts_list")
-	self.lists['serif'] = builder.get_object("serif_fonts_list")
-	self.lists['monospace'] = builder.get_object("monospace_fonts_list")
-	self.lists['cursive'] = builder.get_object("cursive_fonts_list")
-	self.lists['fantasy'] = builder.get_object("fantasy_fonts_list")
+        self.lists['serif'] = builder.get_object("serif_fonts_list")
+        self.lists['monospace'] = builder.get_object("monospace_fonts_list")
+        self.lists['cursive'] = builder.get_object("cursive_fonts_list")
+        self.lists['fantasy'] = builder.get_object("fantasy_fonts_list")
 
-	self.close_button = builder.get_object("button2")
-	self.close_button.connect("clicked", self.closeClicked)
-  
-	self.addlang_button = builder.get_object("add-lang")
+        self.close_button = builder.get_object("button2")
+        self.close_button.connect("clicked", self.closeClicked)
+
+        self.addlang_button = builder.get_object("add-lang")
         self.addlang_button.connect("clicked", self.addlangClicked)
 
         self.removelang_button = builder.get_object("remove-lang")
         self.removelang_button.connect("clicked", self.removelangClicked)
         self.removelang_button.set_sensitive(False)
-	
-	self.apply_button = builder.get_object("button1")
-	self.apply_button.connect("clicked", self.applyClicked)
 
-     	selection = self.lang_view.get_selection()
+        self.apply_button = builder.get_object("button1")
+        self.apply_button.connect("clicked", self.applyClicked)
+
+        selection = self.lang_view.get_selection()
         selection.connect("changed", self.selectionChanged)
 
         self.languages = LangList(self.window)
         self.data = {}
         self.translations = {}
 
-	Easyfc.init()
+        Easyfc.init()
 
         self.config = Easyfc.Config()
         self.config.set_name("fontstweak")
@@ -377,8 +377,8 @@ class FontsTweakTool:
             for a in self.config.get_aliases(l):
                 an = a.get_name()
                 self.render_combobox(l, an)
-	
-	self.__initialized = True
+
+        self.__initialized = True
 
 def main(argv):
     try:
