@@ -125,7 +125,6 @@ class FontsTweakTool:
                 self.render_combobox(lang, n)
             self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
-            self.font_changed = False
 
     def add_language(self, desc, lang):
         retval = True
@@ -148,7 +147,6 @@ class FontsTweakTool:
 
     def addlangClicked(self, *args):
         response = self.languages.show_dialog()
-        self.language_selected = True
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
             if selection != None:
@@ -194,10 +192,33 @@ class FontsTweakTool:
                 except gi._glib.GError:
                     pass
                 self.render_label(combobox, lang)
-                self.font_changed = True
+
+    def checkchange(self):
+        changed = False
+        language_added = False
+        iter = self.lang_list.get_iter_first()
+        while iter != None:
+            n, l = self.lang_list.get(iter, 0, 1)
+            if l not in self.init_status.keys():
+                language_added = True
+                aliases = self.config.get_aliases(l)
+                if aliases:
+                    changed = True
+            else:
+                aliases = self.config.get_aliases(l)
+                fonts = []
+                if aliases:
+                    for a in aliases:
+                        fonts.append(a.get_font())
+                if set(fonts) != set(self.init_status[l]):
+                    changed = True
+            iter = self.lang_list.iter_next(iter)
+
+        return language_added, changed
 
     def closeClicked(self, *args):
-        if self.language_selected and not self.font_changed:
+        language_added, font_changed = self.checkchange()
+        if language_added and not font_changed:
             dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
                         Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
                         "The added language will be discard after closing")
@@ -205,7 +226,7 @@ class FontsTweakTool:
             response = dialog.run()
             dialog.destroy()
 
-        if self.font_changed:
+        if font_changed:
             dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
                         Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO,
                         "Do you want to save your changes before closing?")
@@ -286,8 +307,6 @@ class FontsTweakTool:
 
     def __init__(self):
         self.__initialized = False
-        self.font_changed = False
-        self.language_selected = False
         builder = Gtk.Builder()
         builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
@@ -360,6 +379,8 @@ class FontsTweakTool:
         self.data = {}
         self.translations = {}
 
+        self.init_status = {}
+
         Easyfc.init()
 
         self.config = Easyfc.Config()
@@ -374,9 +395,13 @@ class FontsTweakTool:
             # XXX: need to take care of the KeyError exception?
             desc = self.languages.langlist[l]
             self.add_language(desc, l)
+            fontlist =[]
             for a in self.config.get_aliases(l):
                 an = a.get_name()
                 self.render_combobox(l, an)
+                fn = a.get_font()
+                fontlist.append(fn)
+            self.init_status[l]=fontlist
 
         self.__initialized = True
 
