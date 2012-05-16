@@ -161,6 +161,41 @@ class FontsTweakTool:
 
         self.languages.close_dialog()
 
+    def pango_addlanguage(self, desc, lang):
+        retval = True
+        model = self.pango_langview.get_model()
+        iteration = model.get_iter_first()
+        while iteration != None:
+            name, lang = model.get(iteration, 0, 1)
+            if lang == lang:
+                retval = False
+                break
+            iteration = model.iter_next(iteration)
+        if retval == True:
+            iteration = self.pango_langlist.append()
+            self.pango_langlist.set_value(iteration, 0, desc)
+            self.pango_langlist.set_value(iteration, 1, lang)
+        else:
+            iteration = None
+
+        return iteration
+
+    def pango_addlangClicked(self, *args):
+        response = self.languages.show_dialog()
+        if response != Gtk.ResponseType.CANCEL:
+            selection = self.languages.get_selection()
+            if selection != None:
+                lang, desc = selection
+                iter = self.pango_addlanguage(desc, lang)
+                if iter == None:
+                    print "%s has already been added.\n" % lang
+                else:
+                    model = self.pango_langview.get_model()
+                    path = model.get_path(iter)
+                    self.pango_langview.set_cursor(path, None, False)
+
+        self.languages.close_dialog()
+
     def removelangClicked(self, *args):
         selection = self.lang_view.get_selection()
         model, iter = selection.get_selected()
@@ -170,6 +205,14 @@ class FontsTweakTool:
             self.note_book.set_current_page(1)
             self.removelang_button.set_sensitive(False)
             self.config.remove_aliases(lang)
+
+    def pango_removelangClicked(self, *args):
+        selection = self.pango_langview.get_selection()
+        model, iter = selection.get_selected()
+        if iter != None:
+            lang = model.get(iter, 1)[0]
+            self.pango_langlist.remove(iter)
+            self.removelang_button.set_sensitive(False)
 
     def fontChanged(self, combobox, *args):
         if self.__initialized == False:
@@ -315,7 +358,7 @@ class FontsTweakTool:
             # need to polish it with the better way
             uifile = "/usr/share/fonts-tweak-tool/fontstools.ui"
         builder.add_from_file(uifile) 
-        self.window = builder.get_object("dialog1")
+        self.window = builder.get_object("window1")
         self.window.connect("destroy", Gtk.main_quit)
         self.window.set_title("fonts-tweak-tool")
         self.window.set_size_request(640, 480)
@@ -326,6 +369,13 @@ class FontsTweakTool:
         self.lang_list = builder.get_object("lang_list")
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
         self.lang_view.append_column(column)
+
+        self.pango_scrollwindow = builder.get_object("pango_scrolledwindow")
+        self.pango_scrollwindow.set_min_content_width(200)
+        self.pango_langview = builder.get_object("pango_treeview")
+        self.pango_langlist = builder.get_object("pango_langlist")
+        column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
+        self.pango_langview.append_column(column)
 
         self.note_book = builder.get_object("notebook1")
         self.note_book.set_current_page(1)
@@ -367,6 +417,13 @@ class FontsTweakTool:
 
         self.removelang_button = builder.get_object("remove-lang")
         self.removelang_button.connect("clicked", self.removelangClicked)
+        self.removelang_button.set_sensitive(False)
+
+        self.addlang_button = builder.get_object("add-lang1")
+        self.addlang_button.connect("clicked", self.pango_addlangClicked)
+
+        self.removelang_button = builder.get_object("remove-lang1")
+        self.removelang_button.connect("clicked", self.pango_removelangClicked)
         self.removelang_button.set_sensitive(False)
 
         self.apply_button = builder.get_object("button1")
