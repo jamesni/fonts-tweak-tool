@@ -161,20 +161,20 @@ class FontsTweakTool:
 
         self.languages.close_dialog()
 
-    def pango_addlanguage(self, desc, lang):
+    def pango_addlanguage(self, desc, language):
         retval = True
         model = self.pango_langview.get_model()
         iteration = model.get_iter_first()
         while iteration != None:
             name, lang = model.get(iteration, 0, 1)
-            if lang == lang:
+            if lang == language:
                 retval = False
                 break
             iteration = model.iter_next(iteration)
         if retval == True:
             iteration = self.pango_langlist.append()
             self.pango_langlist.set_value(iteration, 0, desc)
-            self.pango_langlist.set_value(iteration, 1, lang)
+            self.pango_langlist.set_value(iteration, 1, language)
         else:
             iteration = None
 
@@ -205,6 +205,26 @@ class FontsTweakTool:
             self.note_book.set_current_page(1)
             self.removelang_button.set_sensitive(False)
             self.config.remove_aliases(lang)
+
+    def pango_langupClicked(self, *args):
+        selection = self.pango_langview.get_selection()
+        listmodel, listiter = selection.get_selected()
+        first_iter = listmodel.get_iter_first()
+        if listiter != None:
+            path = listmodel.get_path(listiter)
+            path.prev()
+            prev_iter = listmodel.get_iter(path)
+            if listiter != first_iter:
+                listmodel.move_before(listiter, prev_iter)
+
+    def pango_langdownClicked(self, *args):
+        selection = self.pango_langview.get_selection()
+        listmodel, listiter = selection.get_selected()
+        first_iter = listmodel.get_iter_first()
+        if listiter != None:
+            next_iter = listmodel.iter_next(listiter)
+            if next_iter:
+                listmodel.move_after(listiter, next_iter)
 
     def pango_removelangClicked(self, *args):
         selection = self.pango_langview.get_selection()
@@ -425,6 +445,12 @@ class FontsTweakTool:
         self.removelang_button = builder.get_object("remove-lang1")
         self.removelang_button.connect("clicked", self.pango_removelangClicked)
         self.removelang_button.set_sensitive(False)
+
+        self.langup_button = builder.get_object("lang-up")
+        self.langup_button.connect("clicked", self.pango_langupClicked)
+
+        self.langdown_button = builder.get_object("lang-down")
+        self.langdown_button.connect("clicked", self.pango_langdownClicked)
 
         self.apply_button = builder.get_object("button1")
         self.apply_button.connect("clicked", self.applyClicked)
