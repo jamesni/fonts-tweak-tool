@@ -280,7 +280,7 @@ class FontsTweakTool:
         if self.fontslist.has_key(lang) == False:
             self.fontslist[lang] = {}
         if self.fontslist[lang].has_key(alias) == False:
-            self.fontslist[lang][alias] = Easyfc.get_fonts_list(lang, alias)
+            self.fontslist[lang][alias] = Easyfc.Font.get_list(lang, alias, False)
         self.lists[alias].clear()
         self.lists[alias].append([alias])
         for f in self.fontslist[lang][alias]:
