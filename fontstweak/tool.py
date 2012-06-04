@@ -233,6 +233,26 @@ class FontsTweakTool:
             lang = model.get(iter, 1)[0]
             self.pango_langlist.remove(iter)
             self.removelang_button.set_sensitive(False)
+    
+    def pango_applyClicked(self, *args):
+        pango_language = "export PANGO_LANGUAGE = "
+        languages = ""
+        model = self.pango_langview.get_model()
+        iteration = model.get_iter_first()
+        name, language = model.get(iteration, 0, 1)
+        pango_language = pango_language + language
+        iteration = model.iter_next(iteration)
+        while iteration != None:
+            name, language = model.get(iteration, 0, 1)
+            pango_language = pango_language + ":" +language
+            iteration = model.iter_next(iteration)
+
+        home = os.path.expanduser("~")
+        bashrc = open(home+"/.bashrc", 'a')
+        bashrc.write(pango_language)
+
+    def pango_closeClicked(self, *args):
+        pass
 
     def fontChanged(self, combobox, *args):
         if self.__initialized == False:
@@ -445,6 +465,13 @@ class FontsTweakTool:
         self.removelang_button = builder.get_object("remove-lang1")
         self.removelang_button.connect("clicked", self.pango_removelangClicked)
         self.removelang_button.set_sensitive(False)
+
+        self.pango_applybutton = builder.get_object("pango_apply_button")
+        self.pango_applybutton.connect("clicked", self.pango_applyClicked)
+
+        self.pango_closebutton = builder.get_object("pango_close_button")
+        self.pango_closebutton.connect("clicked", self.pango_closeClicked)
+        self.pango_closebutton.set_sensitive(False)
 
         self.langup_button = builder.get_object("lang-up")
         self.langup_button.connect("clicked", self.pango_langupClicked)

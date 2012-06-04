@@ -933,7 +933,7 @@ set the order</property>
                 <property name="can_focus">False</property>
                 <property name="layout_style">end</property>
                 <child>
-                  <object class="GtkButton" id="button6">
+                  <object class="GtkButton" id="pango_apply_button">
                     <property name="label">gtk-apply</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -948,7 +948,7 @@ set the order</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button7">
+                  <object class="GtkButton" id="pango_close_button">
                     <property name="label">gtk-close</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
