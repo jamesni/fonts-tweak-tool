@@ -71,7 +71,7 @@ class LangList:
             lang = str(tokens[0]).split('.')[0].replace('_', '-')
             self.langlist[lang] = string.join(tokens[3:], ' ')
 
-    def show_dialog(self):
+    def show_dialog(self, column):
         builder = Gtk.Builder()
         builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
@@ -90,7 +90,7 @@ class LangList:
             self.langStore.set_value(iter, 1, self.langlist[l])
 
         self.langView = builder.get_object("lang_view")
-        col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
+        col = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=column)
         self.langView.append_column(col)
         self.dialog.show_all()
         return self.dialog.run()
@@ -146,7 +146,7 @@ class FontsTweakTool:
         return iter
 
     def addlangClicked(self, *args):
-        response = self.languages.show_dialog()
+        response = self.languages.show_dialog(1)
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
             if selection != None:
@@ -181,7 +181,7 @@ class FontsTweakTool:
         return iteration
 
     def pango_addlangClicked(self, *args):
-        response = self.languages.show_dialog()
+        response = self.languages.show_dialog(0)
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
             if selection != None:
@@ -414,7 +414,7 @@ class FontsTweakTool:
         self.pango_scrollwindow.set_min_content_width(200)
         self.pango_langview = builder.get_object("pango_treeview")
         self.pango_langlist = builder.get_object("pango_langlist")
-        column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0)
+        column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
         self.pango_langview.append_column(column)
 
         self.note_book = builder.get_object("notebook1")
