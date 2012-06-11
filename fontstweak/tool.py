@@ -25,6 +25,7 @@ import string
 import gi
 import gettext
 import locale
+import re
 from collections import OrderedDict
 from gi.repository import Gtk
 from gi.repository import GObject
@@ -240,16 +241,27 @@ class FontsTweakTool:
         model = self.pango_langview.get_model()
         iteration = model.get_iter_first()
         name, language = model.get(iteration, 0, 1)
-        pango_language = pango_language + language
+        pango_language = language
         iteration = model.iter_next(iteration)
         while iteration != None:
             name, language = model.get(iteration, 0, 1)
             pango_language = pango_language + ":" +language
             iteration = model.iter_next(iteration)
 
+        content = []
         home = os.path.expanduser("~")
-        bashrc = open(home+"/.bashrc", 'a')
-        bashrc.write(pango_language)
+        config_file = open(home+"/.i18n", 'w+')
+        lines = config_file.readlines()
+        
+        if not lines:
+            content.append("export PANGO_LANGUAGE = %s"%pango_language)
+        else:
+            for line in lines:
+                line = re.sub(r'(export PANGO_LANGUAGE\s+=\s+).*$', r'\1%s'%pango_language, line)
+                content.append(line)
+        
+        config_file.writelines(content)
+        config_file.close()        
 
     def pango_closeClicked(self, *args):
         pass
