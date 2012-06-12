@@ -248,18 +248,36 @@ class FontsTweakTool:
             pango_language = pango_language + ":" +language
             iteration = model.iter_next(iteration)
 
+        self.write_config(pango_language)
+
+    def parse_content(self, path, pango_language):
+        find_pangolanguage = False
         content = []
-        home = os.path.expanduser("~")
-        config_file = open(home+"/.i18n", 'w+')
-        lines = config_file.readlines()
-        
-        if not lines:
-            content.append("export PANGO_LANGUAGE = %s"%pango_language)
-        else:
+                
+        if os.path.exists(path):
+            config_file = open(path, 'r')
+            lines = config_file.readlines()
+            config_file.close
+
             for line in lines:
-                line = re.sub(r'(export PANGO_LANGUAGE\s+=\s+).*$', r'\1%s'%pango_language, line)
+                if re.search(r'PANGO_LANGUAGE=', line):
+                    line = re.sub(r'(PANGO_LANGUAGE=).*$', r'\1%s'%pango_language, line)
+                    find_pangolanguage = True
                 content.append(line)
+                
+        if not find_pangolanguage:
+            content.append("#start: fonts-tweak-tool\n")
+            content.append("PANGO_LANGUAGE=%s\n"%pango_language)
+            content.append("#end:   fonts-tweak-tool")
         
+        return content
+
+    def write_config(self, pango_language):
+        home = os.path.expanduser("~")
+        configfile_path = home+"/.i18n"
+        content = self.parse_content(configfile_path, pango_language)
+
+        config_file = open(configfile_path, 'w')
         config_file.writelines(content)
         config_file.close()        
 
