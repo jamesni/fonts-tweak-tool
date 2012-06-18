@@ -350,6 +350,9 @@ class FontsTweakTool:
                 self.applyClicked()
             dialog.destroy()
         Gtk.main_quit()
+    
+    def pango_closeClicked(self, *args):
+        Gtk.main_quit()
 
     def applyClicked(self, *args):
         try:
@@ -501,7 +504,7 @@ class FontsTweakTool:
 
         self.pango_closebutton = builder.get_object("pango_close_button")
         self.pango_closebutton.connect("clicked", self.pango_closeClicked)
-        self.pango_closebutton.set_sensitive(False)
+        #self.pango_closebutton.set_sensitive(False)
 
         self.langup_button = builder.get_object("lang-up")
         self.langup_button.connect("clicked", self.pango_langupClicked)
