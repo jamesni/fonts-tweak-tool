@@ -981,7 +981,7 @@ set the order</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
-            <property name="label" translatable="yes">Pango_Language</property>
+            <property name="label" translatable="yes">GTK Language Order</property>
           </object>
           <packing>
             <property name="position">1</property>
