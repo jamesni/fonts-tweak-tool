@@ -72,7 +72,7 @@ class LangList:
             lang = str(tokens[0]).split('.')[0].replace('_', '-')
             self.langlist[lang] = string.join(tokens[3:], ' ')
 
-    def show_dialog(self, column):
+    def show_dialog(self, column, disable_default):
         builder = Gtk.Builder()
         builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
@@ -86,6 +86,8 @@ class LangList:
         self.langStore = builder.get_object("lang_and_locale_list")
 
         for l in self.langlist.keys():
+            if disable_default and l == '':
+                    continue
             iter = self.langStore.append()
             self.langStore.set_value(iter, 0, l)
             self.langStore.set_value(iter, 1, self.langlist[l])
@@ -147,7 +149,7 @@ class FontsTweakTool:
         return iter
 
     def addlangClicked(self, *args):
-        response = self.languages.show_dialog(1)
+        response = self.languages.show_dialog(1, False)
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
             if selection != None:
@@ -182,7 +184,7 @@ class FontsTweakTool:
         return iteration
 
     def pango_addlangClicked(self, *args):
-        response = self.languages.show_dialog(0)
+        response = self.languages.show_dialog(1, True)
         if response != Gtk.ResponseType.CANCEL:
             selection = self.languages.get_selection()
             if selection != None:
@@ -234,7 +236,7 @@ class FontsTweakTool:
             lang = model.get(iter, 1)[0]
             self.pango_langlist.remove(iter)
             self.removelang_button.set_sensitive(False)
-    
+
     def pango_applyClicked(self, *args):
         pango_language = "export PANGO_LANGUAGE = "
         languages = ""
@@ -253,7 +255,7 @@ class FontsTweakTool:
     def parse_content(self, path, pango_language):
         find_pangolanguage = False
         content = []
-                
+
         if os.path.exists(path):
             config_file = open(path, 'r')
             lines = config_file.readlines()
@@ -264,12 +266,12 @@ class FontsTweakTool:
                     line = re.sub(r'(PANGO_LANGUAGE=).*$', r'\1%s'%pango_language, line)
                     find_pangolanguage = True
                 content.append(line)
-                
+
         if not find_pangolanguage:
             content.append("#start: fonts-tweak-tool\n")
             content.append("PANGO_LANGUAGE=%s\n"%pango_language)
             content.append("#end:   fonts-tweak-tool")
-        
+
         return content
 
     def write_config(self, pango_language):
@@ -350,7 +352,7 @@ class FontsTweakTool:
                 self.applyClicked()
             dialog.destroy()
         Gtk.main_quit()
-    
+
     def pango_closeClicked(self, *args):
         Gtk.main_quit()
 
