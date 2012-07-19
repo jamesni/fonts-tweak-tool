@@ -129,6 +129,17 @@ class FontsTweakTool:
             self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
 
+    def pango_selectionChanged(self, *args):
+        selection = self.pango_langview.get_selection()
+        model, iter = selection.get_selected()
+        if iter == None:
+            self.pango_removelang.set_sensitive(False)
+        else:
+            lang = model.get_value(iter, 1)
+            for n in alias_names:
+                self.render_combobox(lang, n)
+            self.pango_removelang.set_sensitive(True)
+
     def add_language(self, desc, lang):
         retval = True
         model = self.lang_view.get_model()
@@ -235,7 +246,7 @@ class FontsTweakTool:
         if iter != None:
             lang = model.get(iter, 1)[0]
             self.pango_langlist.remove(iter)
-            self.removelang_button.set_sensitive(False)
+            self.pango_removelang.set_sensitive(False)
 
     def pango_applyClicked(self, *args):
         pango_language = "export PANGO_LANGUAGE = "
@@ -497,9 +508,9 @@ class FontsTweakTool:
         self.addlang_button = builder.get_object("add-lang1")
         self.addlang_button.connect("clicked", self.pango_addlangClicked)
 
-        self.removelang_button = builder.get_object("remove-lang1")
-        self.removelang_button.connect("clicked", self.pango_removelangClicked)
-        self.removelang_button.set_sensitive(False)
+        self.pango_removelang = builder.get_object("remove-lang1")
+        self.pango_removelang.connect("clicked", self.pango_removelangClicked)
+        self.pango_removelang.set_sensitive(False)
 
         self.pango_applybutton = builder.get_object("pango_apply_button")
         self.pango_applybutton.connect("clicked", self.pango_applyClicked)
@@ -519,6 +530,9 @@ class FontsTweakTool:
 
         selection = self.lang_view.get_selection()
         selection.connect("changed", self.selectionChanged)
+
+        pango_selection = self.pango_langview.get_selection()
+        pango_selection.connect("changed", self.pango_selectionChanged)
 
         self.languages = LangList(self.window)
         self.data = {}
