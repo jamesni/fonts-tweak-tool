@@ -49,7 +49,11 @@ class FontsTweakPropUI:
         self.radio_autohinting = builder.get_object('radiobutton-autohinting')
 
         self.listobj = Gtk.ListStore(GObject.TYPE_STRING)
-        for f in Easyfc.Font.get_list(None, None, False):
+        fonts = Easyfc.Font.get_list(None, None, False)
+        if len(fonts) == 0:
+            # fontconfig seems not supporting the namelang object
+            fonts = Easyfc.Font.get_list(None, None, True)
+        for f in fonts:
             iter = self.listobj.append()
             self.listobj.set_value(iter, 0, f)
 
@@ -60,6 +64,10 @@ class FontsTweakPropUI:
         self.chooser_view = chooser_builder.get_object('treeview')
         self.chooser_selector = chooser_builder.get_object('treeview-selection')
         self.chooser_view.append_column(Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0))
+
+        for f in self.config.get_fonts():
+            iter = self.view_list.append()
+            self.view_list.set_value(iter, 0, f.get_family())
 
         self.on_treeview_selection_changed(self.selector)
 
