@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 16:28+0900\n"
+"POT-Creation-Date: 2012-07-23 16:52+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Do not filter the font family name by classification."
 msgstr ""
 
-#: ../data/fonts-tweak-alias.ui.h:4 ../data/fonts-tweak-prop.ui.h:5
+#: ../data/fonts-tweak-alias.ui.h:4 ../data/fonts-tweak-prop.ui.h:9
 msgid "<b>General</b>"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "<b>Aliases</b>"
 msgstr ""
 
-#: ../data/fonts-tweak-alias.ui.h:13 ../data/fonts-tweak-prop.ui.h:10
+#: ../data/fonts-tweak-alias.ui.h:13 ../data/fonts-tweak-prop.ui.h:14
 msgid "page 1"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Please select a language."
 msgstr ""
 
-#: ../data/fonts-tweak-alias.ui.h:15 ../data/fonts-tweak-prop.ui.h:12
+#: ../data/fonts-tweak-alias.ui.h:15 ../data/fonts-tweak-prop.ui.h:16
 msgid "page 2"
 msgstr ""
 
@@ -94,90 +94,74 @@ msgid "Move the selected language down"
 msgstr ""
 
 #: ../data/fonts-tweak-prop.ui.h:1
-msgid "Add a font"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:2
-msgid "Remove the font"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:3
-msgid "Use the sub-pixel rendering"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:4
-msgid "Use the embedded bitmap font if any"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:6
-msgid "Do not use any hinting data"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:7
-msgid "Use hinting data in the font"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:8
-msgid "Use automatic-hinting feature"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:9
-msgid "<b>Hinting</b>"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:11
-msgid "Please select a font."
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:13
 msgid "None"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:14
-msgid "1"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:15
+#: ../data/fonts-tweak-prop.ui.h:2
 msgid "Slight"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:16
-msgid "2"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:17
+#: ../data/fonts-tweak-prop.ui.h:3
 msgid "Medium"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:18
-msgid "3"
-msgstr ""
-
-#: ../data/fonts-tweak-prop.ui.h:19
+#: ../data/fonts-tweak-prop.ui.h:4
 msgid "Full"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:20
-msgid "4"
+#: ../data/fonts-tweak-prop.ui.h:5
+msgid "Add a font"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:21
+#: ../data/fonts-tweak-prop.ui.h:6
+msgid "Remove the font"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:7
+msgid "Use the sub-pixel rendering"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:8
+msgid "Use the embedded bitmap font if any"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:10
+msgid "Do not use any hinting data"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:11
+msgid "Use hinting data in the font"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:12
+msgid "Use automatic-hinting feature"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:13
+msgid "<b>Hinting</b>"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:15
+msgid "Please select a font."
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:17
 msgid "Grayscale"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:22
+#: ../data/fonts-tweak-prop.ui.h:18
 msgid "RGB"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:23
+#: ../data/fonts-tweak-prop.ui.h:19
 msgid "BGR"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:24
+#: ../data/fonts-tweak-prop.ui.h:20
 msgid "VRGB"
 msgstr ""
 
-#: ../data/fonts-tweak-prop.ui.h:25
+#: ../data/fonts-tweak-prop.ui.h:21
 msgid "VBGR"
 msgstr ""
 
