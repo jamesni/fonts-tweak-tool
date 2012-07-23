@@ -47,7 +47,12 @@ gettext.textdomain(FontsTweak.GETTEXT_PACKAGE)
 Easyfc.init()
 config = Easyfc.Config()
 config.set_name("fontstweak")
-config.set_migration(True)
+try:
+    # This method is available on libeasyfc >= 0.8
+    config.set_migration(True)
+except AttributeError, e:
+    pass
+
 try:
     config.load()
 except gi._glib.GError, e:
@@ -59,18 +64,25 @@ content_area = dlgui.get_content_area()
 
 aliasui_builder = FontsTweakUtil.create_builder('fonts-tweak-alias.ui')
 aliasui_builder.connect_signals(FontsTweakAliasUI(config, aliasui_builder, dlgui))
-propui_builder = FontsTweakUtil.create_builder('fonts-tweak-prop.ui')
-propui_builder.connect_signals(FontsTweakPropUI(config, propui_builder, dlgui))
+try:
+    ezfcver = Easyfc.version()
+    if ezfcver >= '0.8':
+        propui_builder = FontsTweakUtil.create_builder('fonts-tweak-prop.ui')
+        propui_builder.connect_signals(FontsTweakPropUI(config, propui_builder, dlgui))
+        propui = propui_builder.get_object('fonts-prop-ui')
+except AttributeError:
+    propui = None
+
 langui_builder = FontsTweakUtil.create_builder('fonts-tweak-lang.ui')
 langui_builder.connect_signals(FontsTweakLangUI(langui_builder, dlgui))
 
 aliasui = aliasui_builder.get_object('fonts-alias-ui')
-propui = propui_builder.get_object('fonts-prop-ui')
 langui = langui_builder.get_object('fonts-lang-order-ui')
 
 tabs = Gtk.Notebook()
 tabs.append_page(aliasui, Gtk.Label(_('Fonts Aliases')))
-tabs.append_page(propui, Gtk.Label(_('Fonts Properties')))
+if propui is not None:
+    tabs.append_page(propui, Gtk.Label(_('Fonts Properties')))
 tabs.append_page(langui, Gtk.Label(_('Language Ordering')))
 content_area.set_border_width(2)
 content_area.add(tabs)
