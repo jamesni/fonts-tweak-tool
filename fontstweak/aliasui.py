@@ -48,6 +48,7 @@ class FontsTweakAliasUI:
         self.view = builder.get_object('treeview-alias-lang-list')
         self.view.append_column(Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=0))
         self.view_list = builder.get_object('alias-lang-list')
+        self.filter = builder.get_object('checkbutton-filter')
         self.comboboxes = {}
         self.labels = {}
         self.lists = {}
@@ -125,6 +126,9 @@ class FontsTweakAliasUI:
                 return True
 
         return False
+
+    def on_checkbutton_filter_toggled(self, widget):
+        self.on_treeview_selection_changed(self.selector)
 
     def on_combobox_sans_serif_changed(self, widget, *args):
         self.__font_changed(widget, 'sans-serif')
@@ -210,11 +214,18 @@ class FontsTweakAliasUI:
     def __render_combobox(self, lang, alias):
         if self.fonts.has_key(lang) == False:
             self.fonts[lang] = {}
-        if self.fonts[lang].has_key(alias) == False:
-            self.fonts[lang][alias] = Easyfc.Font.get_list(lang, alias, False)
+        if self.filter.get_active():
+            kalias = None
+        else:
+            kalias = alias
+        if self.fonts[lang].has_key(kalias) == False:
+            self.fonts[lang][kalias] = Easyfc.Font.get_list(lang, kalias, False)
+        if len(self.fonts[lang][kalias]) == 0:
+            # fontconfig seems not supporting the namelang object
+            self.fonts[lang][kalias] = Easyfc.Font.get_list(lang, kalias, True)
         self.lists[alias].clear()
         self.lists[alias].append([alias])
-        for f in self.fonts[lang][alias]:
+        for f in self.fonts[lang][kalias]:
             self.lists[alias].append([f])
         fn = None
         for a in self.config.get_aliases(lang):
@@ -225,7 +236,7 @@ class FontsTweakAliasUI:
             model = self.comboboxes[alias].get_model()
             iter = model.get_iter_first()
             while iter != None:
-                f = model.get_value(iter, 0)
+                f = unicode(model.get_value(iter, 0), "utf8")
                 if type(fn) is not unicode:
                     fontname = unicode(fn, "utf8")
                 if f == fontname:
