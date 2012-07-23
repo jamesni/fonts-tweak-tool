@@ -124,8 +124,7 @@ class FontsTweakTool:
             self.removelang_button.set_sensitive(False)
         else:
             lang = model.get_value(iter, 1)
-            for n in alias_names:
-                self.render_combobox(lang, n)
+            self.render_combobox(lang)
             self.note_book.set_current_page(0)
             self.removelang_button.set_sensitive(True)
 
@@ -135,9 +134,6 @@ class FontsTweakTool:
         if iter == None:
             self.pango_removelang.set_sensitive(False)
         else:
-            lang = model.get_value(iter, 1)
-            for n in alias_names:
-                self.render_combobox(lang, n)
             self.pango_removelang.set_sensitive(True)
 
     def add_language(self, desc, lang):
@@ -263,6 +259,21 @@ class FontsTweakTool:
 
         self.write_config(pango_language)
 
+    def read_content(self, path):
+        languages = None
+        language_list = []
+        if os.path.exists(path):
+            config_file = open(path, 'r')
+            lines = config_file.readlines()
+            config_file.close
+
+            for line in lines:
+                if re.search(r'PANGO_LANGUAGE=', line):
+                    languages = line.split('=')[1]
+        if languages:
+            language_list = languages.rstrip().split(':')
+        return language_list
+
     def parse_content(self, path, pango_language):
         find_pangolanguage = False
         content = []
@@ -293,6 +304,18 @@ class FontsTweakTool:
         config_file = open(configfile_path, 'w')
         config_file.writelines(content)
         config_file.close()        
+
+    def read_config(self, langlist):
+        language_list = []
+        home = os.path.expanduser("~")
+        configfile_path = home+"/.i18n"
+        language_list = self.read_content(configfile_path) 
+
+        if language_list:
+            for language in language_list:
+                desc = langlist[language]
+                iteration = self.pango_langlist.append()
+                self.pango_langlist.set_value(iteration, 1, desc)
 
     def pango_closeClicked(self, *args):
         pass
@@ -460,6 +483,7 @@ class FontsTweakTool:
         self.pango_scrollwindow.set_min_content_width(200)
         self.pango_langview = builder.get_object("pango_treeview")
         self.pango_langlist = builder.get_object("pango_langlist")
+
         column = Gtk.TreeViewColumn(None, Gtk.CellRendererText(), text=1)
         self.pango_langview.append_column(column)
 
@@ -515,8 +539,8 @@ class FontsTweakTool:
         self.pango_applybutton = builder.get_object("pango_apply_button")
         self.pango_applybutton.connect("clicked", self.pango_applyClicked)
 
-        self.pango_closebutton = builder.get_object("pango_close_button")
-        self.pango_closebutton.connect("clicked", self.pango_closeClicked)
+        #self.pango_closebutton = builder.get_object("pango_close_button")
+        #self.pango_closebutton.connect("clicked", self.pango_closeClicked)
         #self.pango_closebutton.set_sensitive(False)
 
         self.langup_button = builder.get_object("lang-up")
@@ -561,7 +585,8 @@ class FontsTweakTool:
                 fn = a.get_font()
                 fontlist.append(fn)
             self.init_status[l]=fontlist
-
+                
+        self.read_config(self.languages.langlist)
         self.__initialized = True
 
 def main(argv):
