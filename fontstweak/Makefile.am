@@ -10,7 +10,12 @@ DISTCLEANFILES =		\
 ##
 pyscripts_sources =	\
 	__init__.py	\
-	tool.py		\
+	aliasui.py	\
+	chooserui.py	\
+	fontstweak.py	\
+	langui.py	\
+	propui.py	\
+	util.py		\
 	$(NULL)
 
 -include $(top_srcdir)/git.mk
