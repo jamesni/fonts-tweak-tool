@@ -183,8 +183,8 @@ class FontsTweakTool:
             iteration = model.iter_next(iteration)
         if retval == True:
             iteration = self.pango_langlist.append()
-            self.pango_langlist.set_value(iteration, 0, desc)
-            self.pango_langlist.set_value(iteration, 1, language)
+            self.pango_langlist.set_value(iteration, 0, language)
+            self.pango_langlist.set_value(iteration, 1, desc)
         else:
             iteration = None
 
@@ -244,20 +244,46 @@ class FontsTweakTool:
             self.pango_langlist.remove(iter)
             self.pango_removelang.set_sensitive(False)
 
-    def pango_applyClicked(self, *args):
-        pango_language = "export PANGO_LANGUAGE = "
-        languages = ""
+    def pango_okClicked(self, *args):
+        languages = []        
+        pango_language = ""
         model = self.pango_langview.get_model()
         iteration = model.get_iter_first()
-        name, language = model.get(iteration, 0, 1)
-        pango_language = language
-        iteration = model.iter_next(iteration)
-        while iteration != None:
-            name, language = model.get(iteration, 0, 1)
-            pango_language = pango_language + ":" +language
-            iteration = model.iter_next(iteration)
 
-        self.write_config(pango_language)
+        if not iteration and self.language_list:
+            #empty the language list and save
+            self.write_config(pango_language)
+            dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                        Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
+                        "The change is saved to ~/.i18n")
+            dialog.show_all()
+            response = dialog.run()
+            dialog.destroy()
+        
+        if iteration:
+            #compare the language list, save the changes
+            name, language = model.get(iteration, 0, 1)
+            pango_language = name
+        
+            iteration = model.iter_next(iteration)
+            
+            while iteration != None:
+                name, language = model.get(iteration, 0, 1)
+                pango_language = pango_language + ":" +name
+                iteration = model.iter_next(iteration)
+
+            languages = pango_language.split(":")
+
+            if languages != self.language_list:
+                self.write_config(pango_language)
+                dialog = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                        Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
+                        "The change is saved to ~/.i18n")
+                dialog.show_all()
+                response = dialog.run()
+                dialog.destroy()
+        
+        Gtk.main_quit()
 
     def read_content(self, path):
         languages = None
@@ -269,7 +295,7 @@ class FontsTweakTool:
 
             for line in lines:
                 if re.search(r'PANGO_LANGUAGE=', line):
-                    languages = line.split('=')[1]
+                    languages = line.split('=')[1].strip()
         if languages:
             language_list = languages.rstrip().split(':')
         return language_list
@@ -277,6 +303,9 @@ class FontsTweakTool:
     def parse_content(self, path, pango_language):
         find_pangolanguage = False
         content = []
+
+        if not pango_language:
+            return content
 
         if os.path.exists(path):
             config_file = open(path, 'r')
@@ -306,15 +335,15 @@ class FontsTweakTool:
         config_file.close()        
 
     def read_config(self, langlist):
-        language_list = []
         home = os.path.expanduser("~")
         configfile_path = home+"/.i18n"
-        language_list = self.read_content(configfile_path) 
+        self.language_list = self.read_content(configfile_path) 
 
-        if language_list:
-            for language in language_list:
+        if self.language_list:
+            for language in self.language_list:
                 desc = langlist[language]
                 iteration = self.pango_langlist.append()
+                self.pango_langlist.set_value(iteration, 0, language)
                 self.pango_langlist.set_value(iteration, 1, desc)
 
     def pango_closeClicked(self, *args):
@@ -459,6 +488,7 @@ class FontsTweakTool:
 
     def __init__(self):
         self.__initialized = False
+        self.language_list = []
         builder = Gtk.Builder()
         builder.set_translation_domain(GETTEXT_PACKAGE)
         path = os.path.dirname(os.path.realpath(__file__))
@@ -536,8 +566,8 @@ class FontsTweakTool:
         self.pango_removelang.connect("clicked", self.pango_removelangClicked)
         self.pango_removelang.set_sensitive(False)
 
-        self.pango_applybutton = builder.get_object("pango_apply_button")
-        self.pango_applybutton.connect("clicked", self.pango_applyClicked)
+        self.pango_applybutton = builder.get_object("pango_ok_button")
+        self.pango_applybutton.connect("clicked", self.pango_okClicked)
 
         #self.pango_closebutton = builder.get_object("pango_close_button")
         #self.pango_closebutton.connect("clicked", self.pango_closeClicked)

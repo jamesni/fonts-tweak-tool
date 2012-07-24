@@ -905,13 +905,25 @@
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Please select language and 
-set the order</property>
+                        <property name="label" translatable="yes">Please select language and set the order</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label22">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Note:this change will not take effect 
+until you next log in</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
@@ -933,8 +945,8 @@ set the order</property>
                 <property name="can_focus">False</property>
                 <property name="layout_style">end</property>
                 <child>
-                  <object class="GtkButton" id="pango_apply_button">
-                    <property name="label">gtk-apply</property>
+                  <object class="GtkButton" id="pango_ok_button">
+                    <property name="label">gtk-ok</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -947,6 +959,7 @@ set the order</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
+                <!--
                 <child>
                   <object class="GtkButton" id="pango_close_button">
                     <property name="label">gtk-close</property>
@@ -962,6 +975,7 @@ set the order</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
+                -->
               </object>
               <packing>
                 <property name="expand">False</property>
