@@ -1,3 +1,11 @@
-[type: gettext/glade]data/fontstools.ui
+[type: gettext/glade]data/chooser.ui
+[type: gettext/glade]data/fonts-tweak-alias.ui
+[type: gettext/glade]data/fonts-tweak-lang.ui
+[type: gettext/glade]data/fonts-tweak-prop.ui
 fonts-tweak-tool.desktop.in
-fontstweak/tool.py
+fontstweak/aliasui.py
+fontstweak/chooserui.py
+fontstweak/fontstweak.py
+fontstweak/langui.py
+fontstweak/propui.py
+fontstweak/util.py

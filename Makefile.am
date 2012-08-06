@@ -30,8 +30,8 @@ DISTCLEANFILES =		\
 	$(desktop_DATA)		\
 	setup.py		\
 	$(NULL)
-CLEANFILES =			\
-	$(desktop_DATA)		\
+CLEANFILES =				\
+	$(desktop_DATA)			\
 	$(NULL)
 
 ##

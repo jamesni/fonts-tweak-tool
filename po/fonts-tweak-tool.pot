@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-17 11:01+0900\n"
+"POT-Creation-Date: 2012-07-23 16:52+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,60 +17,152 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../data/fontstools.ui.h:1
-msgid "<b>Alias fonts:</b>"
+#: ../data/chooser.ui.h:1
+msgid "Select an item to add"
 msgstr ""
 
-#: ../data/fontstools.ui.h:2
-msgid "<span font_size=\"small\">Sample: </span>"
-msgstr ""
-
-#: ../data/fontstools.ui.h:3
+#: ../data/fonts-tweak-alias.ui.h:1 ../data/fonts-tweak-lang.ui.h:2
 msgid "Add a language"
 msgstr ""
 
-#: ../data/fontstools.ui.h:4
-msgid "Cursive:"
-msgstr ""
-
-#: ../data/fontstools.ui.h:5
-msgid "Fantasy:"
-msgstr ""
-
-#: ../data/fontstools.ui.h:6
-msgid "Language Selection"
-msgstr ""
-
-#: ../data/fontstools.ui.h:7
-msgid "Monospace:"
-msgstr ""
-
-#: ../data/fontstools.ui.h:8
-msgid "Please select a language"
-msgstr ""
-
-#: ../data/fontstools.ui.h:9
+#: ../data/fonts-tweak-alias.ui.h:2 ../data/fonts-tweak-lang.ui.h:3
 msgid "Remove the language"
 msgstr ""
 
-#: ../data/fontstools.ui.h:10
+#: ../data/fonts-tweak-alias.ui.h:3
+msgid "Do not filter the font family name by classification."
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:4 ../data/fonts-tweak-prop.ui.h:9
+msgid "<b>General</b>"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:5
 msgid "Sans Serif:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:11
-msgid "Select"
-msgstr ""
-
-#: ../data/fontstools.ui.h:12
+#: ../data/fonts-tweak-alias.ui.h:6
 msgid "Serif:"
 msgstr ""
 
-#: ../data/fontstools.ui.h:13
+#: ../data/fonts-tweak-alias.ui.h:7
+msgid "Monospace:"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:8
+msgid "Cursive:"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:9
+msgid "Fantasy:"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:10
+msgid "Sample:"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:11 ../fontstweak/aliasui.py:38
+msgid "The quick brown fox jumps over the lazy dog. 1234567890"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:12
+msgid "<b>Aliases</b>"
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:13 ../data/fonts-tweak-prop.ui.h:14
 msgid "page 1"
 msgstr ""
 
-#: ../data/fontstools.ui.h:14
+#: ../data/fonts-tweak-alias.ui.h:14
+msgid "Please select a language."
+msgstr ""
+
+#: ../data/fonts-tweak-alias.ui.h:15 ../data/fonts-tweak-prop.ui.h:16
 msgid "page 2"
+msgstr ""
+
+#: ../data/fonts-tweak-lang.ui.h:1
+msgid "Add languages you prefer to see."
+msgstr ""
+
+#: ../data/fonts-tweak-lang.ui.h:4
+msgid "Move the selected language up"
+msgstr ""
+
+#: ../data/fonts-tweak-lang.ui.h:5
+msgid "Move the selected language down"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:1
+msgid "None"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:2
+msgid "Slight"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:3
+msgid "Medium"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:4
+msgid "Full"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:5
+msgid "Add a font"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:6
+msgid "Remove the font"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:7
+msgid "Use the sub-pixel rendering"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:8
+msgid "Use the embedded bitmap font if any"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:10
+msgid "Do not use any hinting data"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:11
+msgid "Use hinting data in the font"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:12
+msgid "Use automatic-hinting feature"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:13
+msgid "<b>Hinting</b>"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:15
+msgid "Please select a font."
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:17
+msgid "Grayscale"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:18
+msgid "RGB"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:19
+msgid "BGR"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:20
+msgid "VRGB"
+msgstr ""
+
+#: ../data/fonts-tweak-prop.ui.h:21
+msgid "VBGR"
 msgstr ""
 
 #: ../fonts-tweak-tool.desktop.in.h:1
@@ -81,6 +173,6 @@ msgstr ""
 msgid "Tweak fonts by language using fontconfig"
 msgstr ""
 
-#: ../fontstweak/tool.py:43
-msgid "The quick brown fox jumps over the lazy dog"
+#: ../fontstweak/util.py:70
+msgid "Default"
 msgstr ""
