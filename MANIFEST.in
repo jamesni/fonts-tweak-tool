@@ -1,4 +1,3 @@
-include data/fontstools.ui
 include data/locale-list
 include AUTHORS
 include COPYING
